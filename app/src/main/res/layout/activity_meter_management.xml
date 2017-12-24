@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_meter_management"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/start_page_bg2x"
+    tools:context="com.system.mconcentrator.mconcentrator.MeterManagementActivity">
+
+    <include
+        android:id="@+id/menu_titleup"
+        layout="@layout/common_title"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <RelativeLayout
+        android:id="@+id/LocalDebug_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="8">
+
+
+        <Button
+            android:id="@+id/protocol_130bt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="280dp"
+            android:background="@drawable/icon_white"
+            android:text="@string/protocol130"
+            android:textColor="@color/mediumvioletred"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/protocol_188bt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="280dp"
+            android:background="@drawable/icon_white"
+            android:text="@string/protocol188"
+            android:textColor="@color/mediumvioletred" />
+
+    </RelativeLayout>
+
+    <include
+        android:id="@+id/menu_titleend"
+        layout="@layout/common_title_end"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_below="@id/LocalDebug_content"
+        android:layout_weight="1" />
+
+</LinearLayout>

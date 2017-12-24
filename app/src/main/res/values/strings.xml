@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">MConcentrator</string>
+    <string name="localdebug">本地调试</string>
+    <string name="metermanagement">抄表管理</string>
+    <string name="terminalmaintenance">终端维护</string>
+    <string name="protocol130">130协议</string>
+    <string name="protocol188">188协议</string>
+</resources>

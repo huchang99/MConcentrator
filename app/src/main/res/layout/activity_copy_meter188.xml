@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_copy_meter188"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/start_page_bg2x"
+    android:orientation="vertical"
+    tools:context="com.system.mconcentrator.mconcentrator.CopyMeter188Activity">
+
+    <include
+        android:id="@+id/menu_titleup"
+        layout="@layout/common_title"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/readfileFromDb"
+            android:layout_width="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:background="@drawable/buttontbox"
+            android:text="读取文件"
+            android:textColor="@color/white"
+            android:textSize="18sp"/>
+
+        <Button
+            android:id="@+id/SavafileToDb"
+            android:layout_margin="5dp"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:background="@drawable/buttontbox"
+            android:text="保存文件"
+            android:textColor="@color/white"
+            android:textSize="18sp"/>
+
+        <Button
+            android:id="@+id/CopyOneMeter"
+            android:layout_margin="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/buttontbox"
+            android:text="抄读选择表"
+            android:layout_weight="1"
+            android:textColor="@color/white"
+            android:textSize="18sp"/>
+
+        <Button
+            android:id="@+id/CopyAllMeter"
+            android:layout_margin="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/buttontbox"
+            android:text="抄读所有表"
+            android:layout_weight="1"
+            android:textColor="@color/white"
+            android:textSize="18sp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="8"
+        android:orientation="horizontal"
+        android:background="@drawable/bg_item">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.kelin.scrollablepanel.library.ScrollablePanel
+                android:id="@+id/scrollable_panel"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_device_set_login"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/start_page_bg2x"
+    tools:context="com.system.mconcentrator.mconcentrator.DeviceSetLoginActivity">
+    <include
+        android:id="@+id/menu_titleup"
+        layout="@layout/common_title"
+        />
+
+    <RelativeLayout
+        android:id="@+id/login_admin_name_layout"
+        style="@style/common_Button_background"
+        android:layout_marginTop="80dp"
+        android:layout_above="@+id/login_admin_pwd_layout"
+        >
+
+        <ImageView
+            android:id="@+id/login_admin_name_icon"
+            android:layout_width="23dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:background="@drawable/mail_icon2x" />
+
+        <TextView
+            android:id="@+id/login_admin_et"
+            android:layout_width="280dp"
+            android:layout_height="45dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:text="管理员admin"
+            android:gravity="center"
+            android:maxLength="11"
+            android:singleLine="true"
+            android:textSize="16sp"
+            android:textColor="@color/TextColor"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/login_admin_pwd_layout"
+        style="@style/common_editText_background"
+        android:layout_marginTop="20dp"
+        android:layout_centerInParent="true">
+
+        <ImageView
+            android:id="@+id/login_pwd_icon"
+            android:layout_width="21dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:background="@drawable/password_icon2x"/>
+
+        <EditText
+            android:id="@+id/login_admin_pwd_et"
+            android:layout_width="230dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/login_pwd_icon"
+            android:background="@null"
+            android:hint="请输入管理员密码"
+            android:inputType="textPassword"
+            android:maxLength="15"
+            android:singleLine="true"
+            android:textColor="@color/editColor"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/login_admin_btn"
+        style="@style/common_Button_background"
+        android:layout_below="@id/login_admin_pwd_layout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:text="登录" />
+
+
+</RelativeLayout>

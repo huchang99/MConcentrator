@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_menu"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/start_page_bg2x"
+    android:orientation="vertical"
+    tools:context="com.system.mconcentrator.mconcentrator.MenuActivity">
+
+    <include
+        android:id="@+id/menu_titleup"
+        layout="@layout/common_title"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <RelativeLayout
+        android:id="@+id/menu_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="8">
+
+            <Button
+                android:id="@+id/LocalDebug"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/icon_white"
+                android:layout_marginLeft="80dp"
+                android:textSize="18sp"
+                android:text="@string/localdebug"
+                android:textColor="@color/mediumvioletred"/>
+
+            <Button
+                android:id="@+id/MeterManagement"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/icon_white"
+                android:text="@string/metermanagement"
+                android:textColor="@color/mediumvioletred"
+                />
+
+            <Button
+                android:id="@+id/TerminalMaintenance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/icon_white"
+                android:layout_marginRight="80dp"
+                android:text="@string/terminalmaintenance"
+                android:textColor="@color/mediumvioletred"/>
+
+
+    </RelativeLayout>
+
+    <include
+        android:id="@+id/menu_titleend"
+        layout="@layout/common_title_end"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_below="@id/menu_content"
+        android:layout_weight="1" />
+
+
+</LinearLayout>

@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_protocol130"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/start_page_bg2x"
+    android:orientation="vertical"
+    tools:context="com.system.mconcentrator.mconcentrator.Protocol130Activity">
+
+    <include
+        android:id="@+id/menu_titleup"
+        layout="@layout/common_title"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:id="@+id/protocol130_first_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:orientation="horizontal">
+
+
+        <LinearLayout
+            android:id="@+id/inputbox_first_left"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/inputbox"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/readConcentratorVesionBt"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/buttontbox"
+                android:text="读集中器版本"
+                android:textSize="20sp"
+                android:textColor="@color/TextColor" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/buttontbox"
+                    android:gravity="center"
+                    android:text="硬件"
+                    android:textSize="20sp"
+                    android:textColor="@color/TextColor" />
+
+                <TextView
+                    android:id="@+id/readHardwareVersion"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="3"
+                    android:textSize="20sp"
+                    android:background="@drawable/textbox"
+                    android:gravity="center" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/buttontbox"
+                    android:gravity="center"
+                    android:text="软件"
+                    android:textSize="20sp"
+                    android:textColor="@color/TextColor" />
+
+                <TextView
+                    android:id="@+id/readSoftwareVersion"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="3"
+                    android:textSize="20sp"
+                    android:background="@drawable/textbox"
+                    android:gravity="center" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/inputbox_first_mid"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/inputbox"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/readReportedTimeBt"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:text="读上报时间"
+                android:textSize="20sp"
+                android:textColor="@color/TextColor"
+                android:layout_weight="1"
+                android:background="@drawable/buttontbox"
+                android:layout_margin="10dp"/>
+            <TextView
+                android:id="@+id/readReportedTimeTv"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:layout_weight="2"
+                android:textSize="20sp"
+                android:background="@drawable/textbox"
+                android:layout_margin="15dp"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/inputbox_first_right"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/inputbox"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:textSize="20sp"
+                android:background="@drawable/buttontbox"
+                android:text="合闸状态"
+                android:gravity="center"
+                android:textColor="@color/TextColor" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/closeMeterBt"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="3"
+                    android:background="@drawable/buttontbox"
+                    android:gravity="center"
+                    android:text="合闸当前表"
+                    android:textSize="20sp"
+                    android:textColor="@color/TextColor" />
+
+                <TextView
+                    android:id="@+id/closeMeterStateTv"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
+                    android:textSize="20sp"
+                    android:background="@drawable/textbox"
+                    android:gravity="center" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/openMeterBt"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="3"
+                    android:textSize="20sp"
+                    android:background="@drawable/buttontbox"
+                    android:gravity="center"
+                    android:text="拉闸当前表"
+                    android:textColor="@color/TextColor" />
+
+                <TextView
+                    android:id="@+id/openMeterStateTv"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
+                    android:textSize="20sp"
+                    android:background="@drawable/textbox"
+                    android:gravity="center" />
+            </LinearLayout>
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/protocol130_two_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:orientation="horizontal">
+
+
+        <LinearLayout
+            android:id="@+id/inputbox_two_left"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/inputbox"
+            android:orientation="vertical">
+            <Button
+                android:id="@+id/readTimeBt"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:text="读系统时钟"
+                android:textColor="@color/TextColor"
+                android:layout_weight="1"
+                android:textSize="20sp"
+                android:background="@drawable/buttontbox"
+                android:layout_margin="10dp"/>
+            <TextView
+                android:id="@+id/readTimeTv"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:layout_weight="2"
+                android:textSize="20sp"
+                android:background="@drawable/textbox"
+                android:layout_margin="15dp"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/inputbox_two_mid"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/inputbox"
+            android:orientation="vertical">
+            <Button
+                android:id="@+id/readTcpIpBt"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:text="读TCP/IP"
+                android:textSize="20sp"
+                android:textColor="@color/TextColor"
+                android:layout_weight="1"
+                android:background="@drawable/buttontbox"
+                android:layout_margin="10dp"/>
+            <TextView
+                android:id="@+id/readTcpIpTv"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:layout_weight="2"
+                android:background="@drawable/textbox"
+                android:layout_margin="15dp"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/inputbox_two_right"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/inputbox"
+            >
+
+            <Button
+                android:id="@+id/copyMeterBt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="抄表"
+                android:textSize="20sp"
+                android:layout_margin="20dp"
+                android:layout_gravity="center"
+                android:textColor="@color/TextColor"
+                android:background="@drawable/buttontbox"
+                />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <include
+        android:id="@+id/menu_titleend"
+        layout="@layout/common_title_end"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_below="@id/LocalDebug_content"
+        android:layout_weight="1" />
+
+</LinearLayout>

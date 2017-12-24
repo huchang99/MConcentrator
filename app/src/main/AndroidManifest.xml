@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.system.mconcentrator.mconcentrator">
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+
+
+    <application
+        android:name=".application.MyApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".LunchActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".MenuActivity" />
+        <activity android:name=".SerialPortActivity" />
+        <activity android:name=".TestActivity" />
+        <activity android:name=".LocaldebugActivity" />
+        <activity android:name=".Protocol130Activity" />
+        <activity android:name=".Potocol188Activity" />
+        <activity android:name=".DeviceSetupActivity" />
+        <activity android:name=".DeviceSetLoginActivity" />
+        <activity android:name=".MeterManagementActivity" />
+        <activity android:name=".Meter188ManagementActivity" />
+        <activity android:name=".Meter130ManagementActivity" />
+        <activity android:name=".MeterManagementLoginActivity" />
+        <activity android:name=".CopyMeter188Activity"></activity>
+    </application>
+
+</manifest>
