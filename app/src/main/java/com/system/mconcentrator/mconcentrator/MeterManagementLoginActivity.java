@@ -46,7 +46,7 @@ public class MeterManagementLoginActivity extends Activity implements View.OnCli
          * 判断app是否第一次登录,设置管理员初始密码
          */
         Meteradminsp = getSharedPreferences("Meteradminsp", Context.MODE_PRIVATE);
-        Boolean admin_first = Meteradminsp.getBoolean("AdminFirst", true);
+        Boolean admin_first = Meteradminsp.getBoolean("MeterAdminFirst", true);
         if (admin_first) {//第一次
             Meteradminsp.edit().putBoolean("MeterAdminFirst", false).commit();
             Toast.makeText(MeterManagementLoginActivity.this, "第一次", Toast.LENGTH_LONG).show();

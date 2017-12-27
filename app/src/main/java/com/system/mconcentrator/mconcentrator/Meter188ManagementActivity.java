@@ -437,7 +437,8 @@ public class Meter188ManagementActivity extends SerialPortActivity implements Vi
                 break;
             case R.id.DbToExcelFileBt:
                 LogHelper.d(TAG+"DbToExcelFileBt++","DbToExcelFileBt");
-                String filePath = "/storage/usbhost/8_4/Meter1.xls";
+                //String filePath = "/storage/usbhost/8_4/Meter1.xls";
+                String filePath = "/storage/usbhost2/8_4/Meter1.xls";
                 String filename = "ExtraMeter.xls";
 
                 database dbtoexcel = new database();

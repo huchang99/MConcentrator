@@ -20,36 +20,25 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="3"
+            android:layout_weight="1"
             android:background="@drawable/inputbox"
             android:layout_margin="10dp"
             android:orientation="vertical">
 
             <Button
-                android:id="@+id/readMeterAddr"
+                android:id="@+id/setTerminalPassWord"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:background="@drawable/buttontbox"
                 android:layout_margin="15dp"
-                android:text="读取地址"
+                android:text="修改终端维护登录密码"
                 android:textSize="25sp"
                 android:textColor="@color/TextColor"/>
-            <TextView
-                android:id="@+id/readAddrinfotv"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginBottom="15dp"
-                android:background="@drawable/textbox"
-                android:textSize="25sp"
-                android:gravity="center"
-                />
+
 
             <Button
-                android:id="@+id/setMeterAddr"
+                android:id="@+id/setCopyMeterPassWord"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
@@ -59,32 +48,7 @@
                 android:background="@drawable/buttontbox"
                 android:textSize="25sp"
                 android:textColor="@color/TextColor"
-                android:text="设置地址"/>
-
-            <EditText
-                android:id="@+id/setAddrInfo"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginBottom="15dp"
-                android:background="@drawable/textbox"
-                android:textSize="25sp"
-                android:gravity="center"
-                android:numeric="integer"
-                android:maxLength="11" />
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:background="@drawable/inputbox"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            android:orientation="vertical">
+                android:text="修改抄表管理登录密码"/>
 
 
             <Button
@@ -92,20 +56,32 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:layout_margin="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="15dp"
                 android:background="@drawable/buttontbox"
                 android:textSize="25sp"
                 android:textColor="@color/TextColor"
                 android:text="协议地址"/>
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/inputbox"
+            android:layout_margin="10dp"
+            android:orientation="vertical">
+
+
 
             <Button
                 android:id="@+id/TimeSet"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginBottom="15dp"
+                android:layout_margin="15dp"
                 android:background="@drawable/buttontbox"
                 android:textSize="25sp"
                 android:textColor="@color/TextColor"

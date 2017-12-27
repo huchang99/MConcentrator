@@ -1,10 +1,13 @@
 package com.system.mconcentrator.mconcentrator;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.system.mconcentrator.mconcentrator.application.MyApplication;
+import com.system.mconcentrator.mconcentrator.selfdefineclass.customDialog;
 import com.system.mconcentrator.mconcentrator.utils.Conversion;
 import com.system.mconcentrator.mconcentrator.utils.LogHelper;
 import com.system.mconcentrator.mconcentrator.view.SelectTimePopupWindow;
@@ -36,12 +40,16 @@ import static com.system.mconcentrator.mconcentrator.utils.protocol.SetRemarksIn
 import static com.system.mconcentrator.mconcentrator.utils.protocol.SetRemarksInfodefault3;
 import static com.system.mconcentrator.mconcentrator.utils.protocol.TcpIpCommand;
 
-public class DeviceSetupActivity extends SerialPortActivity implements View.OnClickListener {
+public class DeviceSetupActivity extends Activity implements View.OnClickListener {
 
     private final static String TAG = "DeviceSetupActivity";
 
 
     private MyApplication myApplication;
+
+    //存储管理员帐号和密码
+    private SharedPreferences adminsp;
+    private SharedPreferences Meteradminsp;
 
     //控件
     private FrameLayout menu_titleup;
@@ -54,14 +62,14 @@ public class DeviceSetupActivity extends SerialPortActivity implements View.OnCl
     //设置日期时间
     private SelectTimePopupWindow TimePopupWindow;
 
-    private Button readMeterAddr;
-    private Button setMeterAddr;
+    private Button setTerminalPassWord;
+    private Button setCopyMeterPassWord;
     private Button PotocolSet;
     private Button TimeSet;
     private Button DataInit;
     private Button RestoreFactory;
-    private TextView readAddrinfotv;
-    private EditText setAddrInfo;
+//    private TextView readAddrinfotv;
+//    private EditText setAddrInfo;
 
     //数据处理
     String Receivedtxt;
@@ -86,35 +94,6 @@ public class DeviceSetupActivity extends SerialPortActivity implements View.OnCl
 
     }
 
-    @Override
-    protected void onDataReceived(final byte[] buffer, final int size) {
-
-        //String Receivedtxt = new String(buffer,0,size-1);
-
-        String txt = Conversion.BytetohexString(buffer, size);
-        LogHelper.d("onDataReceived+++txt", txt.toString());
-        if (txt != null) {
-            txtsb.append(txt);
-        }
-        // LogHelper.d("onDataReceived+++txtsb",txtsb.toString());
-        LogHelper.d("onDataReceived+++txtsblength", Integer.toString(txtsb.length()));
-        if (txtsb.length() == 832) {
-            //int temp;
-            Receivedtxt = txtsb.substring(594, 616);
-            //txtsb.delete(0, txtsb.length());//删除所有的数据
-            LogHelper.d("onDataReceived+++Receivedtxt", Receivedtxt);
-            showtext = StringToStringArrayToASCII(Receivedtxt);
-            savePotocol.edit().putString("SaveMeterAddr", showtext).commit();  //保存读出来的地址
-            LogHelper.d("onDataReceived+++showtext", showtext);
-            runOnUiThread(new Runnable() {
-                public void run() {
-                    readAddrinfotv.setText(showtext);
-
-                }
-            });
-        }
-
-    }
 
     private void initData() {
         //设置表头透明
@@ -144,23 +123,22 @@ public class DeviceSetupActivity extends SerialPortActivity implements View.OnCl
         menu_titleup = (FrameLayout) findViewById(R.id.menu_titleup);
         Back_tv = (TextView) findViewById(R.id.Back_tv);
 
-        readMeterAddr = (Button) findViewById(R.id.readMeterAddr);
-        setMeterAddr = (Button) findViewById(R.id.setMeterAddr);
+        setTerminalPassWord = (Button) findViewById(R.id.setTerminalPassWord);
+        setCopyMeterPassWord = (Button) findViewById(R.id.setCopyMeterPassWord);
         PotocolSet = (Button) findViewById(R.id.PotocolSet);
         TimeSet = (Button) findViewById(R.id.TimeSet);
         DataInit = (Button) findViewById(R.id.DataInit);
         RestoreFactory = (Button) findViewById(R.id.RestoreFactory);
 
-        readAddrinfotv = (TextView) findViewById(R.id.readAddrinfotv);
-        setAddrInfo = (EditText) findViewById(R.id.setAddrInfo);
+
 
     }
 
     private void initLinstener() {
 
         Back_tv.setOnClickListener(this);
-        readMeterAddr.setOnClickListener(this);
-        setMeterAddr.setOnClickListener(this);
+        setTerminalPassWord.setOnClickListener(this);
+        setCopyMeterPassWord.setOnClickListener(this);
         PotocolSet.setOnClickListener(this);
         TimeSet.setOnClickListener(this);
         DataInit.setOnClickListener(this);
@@ -174,41 +152,13 @@ public class DeviceSetupActivity extends SerialPortActivity implements View.OnCl
         //Intent intent = new Intent();
         switch (v.getId()) {
 
-            case R.id.readMeterAddr:
-                txtsb.delete(0, txtsb.length());//删除所有的数据
-                //发送读取地址的指令
-                //String readDeviceinfoCom = protocol.SendDeviceInfoProtocolHead+protocol.ReadCommand;
-                String readMeterAddr_CRC = Conversion.getCrc(ReadCommand + PageOne);
-                LogHelper.d("readMeterAddr_Crc", readMeterAddr_CRC);
-                String readDeviceinfoCom = SendDeviceInfoProtocolHead + ReadCommand + PageOne + readMeterAddr_CRC + DeviceInfoProtocolEnd;
-                LogHelper.d("readDeviceinfoCom", readDeviceinfoCom);
-                try {
-                    mOutputStream.write(hexStr2Bytes(readDeviceinfoCom));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                break;
-            case R.id.setMeterAddr:
-                txtsb.delete(0, txtsb.length());//删除所有的数据
-                String setAddrInfotv = StringToHEXAsciiString(setAddrInfo.getText().toString()); //得到用户输入的地址值
-                if (setAddrInfotv.length() < 11) {
-                    Toast.makeText(getApplicationContext(), "请输入11位有效的数字", Toast.LENGTH_SHORT).show();
-                    break;
-                }
-             //   savePotocol.edit().putString("SaveMeterAddr", setAddrInfotv).commit();  //保存读出来的地址
+            case R.id.setTerminalPassWord: //修改终端登录密码
+                ShowDialogsetTerminalPassWord();
 
-                String sendsetAddrInfotv1 = SetRemarksInfoCommand +
-                        SetRemarksInfodefault1 + setAddrInfotv + SetRemarksInfodefault2 + SetRemarksInfodefault3;
-                String sendsetAddrInfotv2 = StringAddOne(sendsetAddrInfotv1, 262 - sendsetAddrInfotv1.length()); //增加0的字符串， //需要校验Crcd的字符串
-                LogHelper.d("+++++sendsetAddrInfotv2", sendsetAddrInfotv2);
-                String sendsetAddrInfotv3 = TcpIpCommand + setAddrInfotv + SendDeviceInfoProtocolHead + sendsetAddrInfotv2 + Conversion.getCrc(sendsetAddrInfotv2) + DeviceInfoProtocolEnd;
-                LogHelper.d("+++++sendsetAddrInfotv3", sendsetAddrInfotv3);
-                //发送
-                try {
-                    mOutputStream.write(hexStr2Bytes(sendsetAddrInfotv3));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+
+                break;
+            case R.id.setCopyMeterPassWord://修改抄表登录密码
+                ShowDialogcopymeterPassWord();
                 break;
             case R.id.PotocolSet:
                 //先获取存储的当前协议
@@ -270,6 +220,69 @@ public class DeviceSetupActivity extends SerialPortActivity implements View.OnCl
 
 
     }
+
+    public void ShowDialogsetTerminalPassWord(){
+
+        final customDialog.Builder builder = new customDialog.Builder(this);
+        builder.setTitle("修改终端维护登录密码");
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                String pwdstr = builder.getDialogcontent();
+                if(pwdstr.length()<1){
+
+                    Toast.makeText(getApplicationContext(),"请输入有效的密码",Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    adminsp = getSharedPreferences("adminsp", Context.MODE_PRIVATE);
+                    adminsp.edit().putString("adminpsd", pwdstr).commit();
+                    dialog.dismiss();
+                    Toast.makeText(getApplicationContext(),"修改成功",Toast.LENGTH_SHORT).show();
+                }
+
+                //设置你的操作事项
+            }
+        });
+
+        builder.setNegativeButton("取消",
+                new android.content.DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+
+                    }
+                });
+        builder.create().show();
+    }
+
+    public void ShowDialogcopymeterPassWord(){
+
+        final customDialog.Builder builder = new customDialog.Builder(this);
+        builder.setTitle("修改抄表管理登录密码");
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                String pwdstr = builder.getDialogcontent();
+                if(pwdstr.length()<1){
+                    Toast.makeText(getApplicationContext(),"请输入有效的密码",Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Meteradminsp = getSharedPreferences("Meteradminsp", Context.MODE_PRIVATE);
+                    Meteradminsp.edit().putString("Meteradminpsd",pwdstr).commit();
+                    dialog.dismiss();
+                    Toast.makeText(getApplicationContext(),"修改成功",Toast.LENGTH_SHORT).show();
+                }
+
+                //设置你的操作事项
+            }
+        });
+
+        builder.setNegativeButton("取消",
+                new android.content.DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        builder.create().show();
+    }
+
 
     public View.OnClickListener myClickLinstener = new View.OnClickListener() {
         @Override
