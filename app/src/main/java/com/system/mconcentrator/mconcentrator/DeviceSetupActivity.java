@@ -154,8 +154,6 @@ public class DeviceSetupActivity extends Activity implements View.OnClickListene
 
             case R.id.setTerminalPassWord: //修改终端登录密码
                 ShowDialogsetTerminalPassWord();
-
-
                 break;
             case R.id.setCopyMeterPassWord://修改抄表登录密码
                 ShowDialogcopymeterPassWord();

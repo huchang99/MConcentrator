@@ -432,50 +432,13 @@ public class Meter188ManagementActivity extends SerialPortActivity implements Vi
                 LitePal.deleteDatabase("MeterStore.db");
                 //DataSupport.deleteAll(MeterData.class);
                 LitePal.getDatabase();
-                ExtraAsyncTask excelTask = new ExtraAsyncTask();
-                excelTask.execute();
+                ExtraAsyncTask excelTaskIn = new ExtraAsyncTask(this,"exceltodb");
+                excelTaskIn.execute();
                 break;
             case R.id.DbToExcelFileBt:
                 LogHelper.d(TAG+"DbToExcelFileBt++","DbToExcelFileBt");
-                //String filePath = "/storage/usbhost/8_4/Meter1.xls";
-                String filePath = "/storage/usbhost2/8_4/Meter1.xls";
-                String filename = "ExtraMeter.xls";
-
-                database dbtoexcel = new database();
-                dbtoexcel.DbToExcel(filePath);
-               // File file = null;
-//                try {
-//                    file = new File(filePath);
-//                    if (!file.exists()) {
-//                        LogHelper.d("filePath++++","filePath");
-//                        file.mkdir();
-//                    }
-//                } catch (Exception e) {
-//
-//                }
-//
-//                try {
-//                   // File file = new File("/storage/usbhost/8_4/ExtraMeter.xls");
-//                    File file1 = new File(filePath+filename);
-//                    if(!file1.exists())
-//                    {
-//                        file1.createNewFile();
-//                    }
-//                    WritableWorkbook Meterwwb = null;
-//
-//                    Meterwwb = Workbook.createWorkbook(file1);
-//
-//                    WritableSheet Metersheet = Meterwwb.createSheet("sheet1", 0);
-//                    database dbtoexcel = new database();
-//                    dbtoexcel.DbToExcel(file,Meterwwb,Metersheet);
-//
-//                    }catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-
-
-                //创建工作表
-
+                ExtraAsyncTask excelTaskOut = new ExtraAsyncTask(this,"dbtoexcel");
+                excelTaskOut.execute();
                 break;
             case R.id.Back_tv:
                 finish();

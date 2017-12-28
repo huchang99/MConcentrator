@@ -20,6 +20,8 @@ public class protocol {
     public final static String TimingCollection = "505050";  //PPP   设置定时采集
     public final static String SetRemarksInfoCommand = "4E4E4E";  //NNN  写备注信息
     public final static String SetModemCommand = "414141";  //AAA  MODEM配置指令
+    public final static String OpengateCommand = "4B4B4B"; //KKK 表阀门打开指令
+    public final static String OffgateCommand = "474747"; //GGG 表阀门打开指令
     public final static String SetRemarksInfodefault1 = "BCAFD6D0C6F720202020A3BA";
     public final static String SetRemarksInfodefault2 = "0D0A";
     public final static String SetRemarksInfodefault3 = "B0E6B1BE202020202020A3BA0D0AB3F6B3A7C8D5C6DA2020A3BA0D0A";

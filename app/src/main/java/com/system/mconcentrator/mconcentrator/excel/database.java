@@ -25,7 +25,7 @@ public class database {
     private static final String TAG = "database";
    // private String sourcefile = "/storage/usbhost/8_4/ExtraMeter.xls";
     private String sourcefile = "/storage/usbhost2/8_4/ExtraMeter.xls";
-
+    private String OutfilePath = "/storage/usbhost2/8_4/Meter1.xls";
     private Workbook wbook;
     private WritableWorkbook wwbCopy;
     private WritableSheet shSheet;
@@ -97,16 +97,15 @@ public class database {
     }
 
     //初始化导出的Excel表
-    public void DbToExcel(String filepath) {
+    public void DbToExcel() {
         WritableWorkbook Meterwwb = null;
         String content = null;
         try {
             // File file = new File("/storage/usbhost/8_4/ExtraMeter.xls");
-            File file = new File(filepath);
+            File file = new File(OutfilePath);
             if (!file.exists()) {
                 file.createNewFile();
             }
-           // WritableWorkbook Meterwwb = null;
 
             Meterwwb = Workbook.createWorkbook(file);
 

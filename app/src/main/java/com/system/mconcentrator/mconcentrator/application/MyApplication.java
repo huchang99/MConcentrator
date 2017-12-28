@@ -1,6 +1,7 @@
 package com.system.mconcentrator.mconcentrator.application;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Environment;
 import android.os.StatFs;
 
@@ -32,6 +33,9 @@ public class MyApplication extends LitePalApplication {
     private static int baudrate = 19200; //波特率
     // private static String path = "/dev/ttyS4"; //路径
     private static String path = "/dev/ttyS2"; //路径
+
+    //存储路径
+    SharedPreferences initsavePotocol;
 
 
 

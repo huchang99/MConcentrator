@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -29,6 +30,7 @@ import static android.content.Intent.ACTION_TIME_TICK;
 import static com.system.mconcentrator.mconcentrator.utils.Conversion.StringToStringArrayToASCII;
 import static com.system.mconcentrator.mconcentrator.utils.Conversion.hexStr2Bytes;
 import static com.system.mconcentrator.mconcentrator.utils.protocol.DeviceInfoProtocolEnd;
+import static com.system.mconcentrator.mconcentrator.utils.protocol.OpengateCommand;
 import static com.system.mconcentrator.mconcentrator.utils.protocol.PageOne;
 import static com.system.mconcentrator.mconcentrator.utils.protocol.ReadCommand;
 import static com.system.mconcentrator.mconcentrator.utils.protocol.SendDeviceInfoProtocolHead;
@@ -65,6 +67,8 @@ public class Potocol188Activity extends SerialPortActivity implements View.OnCli
     private TextView timeHour;      //小时选择
     private TextView timeMinute;    //分选择
     private Button copyMeterBt; //读抄表按钮
+    private Button opengatebt;//开阀
+    private Button offatebt;//关阀
 
 
     //数据处理
@@ -81,6 +85,9 @@ public class Potocol188Activity extends SerialPortActivity implements View.OnCli
     String TwotimeDayStr;            //第二行时间day字符串
     String timeHourStr;              //小时选择字符串
     String timeMinuteStr;            //分选择字符串
+
+    //取出集中器的地址
+  //  private SharedPreferences SpMeterAddr;
 
 
 
@@ -122,7 +129,8 @@ public class Potocol188Activity extends SerialPortActivity implements View.OnCli
         timeMinute = (TextView) findViewById(R.id.timeMinute);    //分选择
 
         copyMeterBt = (Button)findViewById(R.id.copyMeterBt); //抄表按钮
-
+        opengatebt = (Button)findViewById(R.id.opengatebt);
+        offatebt = (Button)findViewById(R.id.offatebt);
 
     }
 
@@ -161,13 +169,17 @@ public class Potocol188Activity extends SerialPortActivity implements View.OnCli
 
         //初始化数据
         txtsb = new StringBuffer();
+
+        //初始化shareperfence
+      //  SpMeterAddr = getSharedPreferences("savePotocol", MODE_PRIVATE);
     }
 
     private void initLinstener() {
         Back_tv.setOnClickListener(this);
         readConcentratorVesionBt.setOnClickListener(this);
         copyMeterBt.setOnClickListener(this);
-
+        opengatebt.setOnClickListener(this);
+        offatebt.setOnClickListener(this);
     }
 
     @Override
@@ -208,6 +220,19 @@ public class Potocol188Activity extends SerialPortActivity implements View.OnCli
                 intent = null;
                // finish();
                 break;
+
+            case R.id.opengatebt:
+                txtsb.delete(0, txtsb.length());//删除所有的数据
+//                String MeterAddr = SpMeterAddr.getString("SaveMeterAddr",null);
+//                LogHelper.d(TAG+"MeterAddr",MeterAddr);
+//               String Sendopengatestr1 =OpengateCommand+
+////                        String Sendopengatestr2 =TcpIpCommand
+                break;
+
+            case R.id.offatebt:
+                txtsb.delete(0, txtsb.length());//删除所有的数据
+                break;
+
             case R.id.Back_tv:
                 finish();
                 break;
