@@ -44,7 +44,7 @@
             android:textSize="18sp"/>
 
         <Button
-            android:id="@+id/CopyOneMeter"
+            android:id="@+id/CopyMeterData"
             android:layout_margin="5dp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"

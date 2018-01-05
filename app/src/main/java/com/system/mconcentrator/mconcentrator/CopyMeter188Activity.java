@@ -1,6 +1,9 @@
 package com.system.mconcentrator.mconcentrator;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -13,6 +16,7 @@ import com.system.mconcentrator.mconcentrator.scrollablepanel.DateInfo;
 import com.system.mconcentrator.mconcentrator.scrollablepanel.OrderInfo;
 import com.system.mconcentrator.mconcentrator.scrollablepanel.RoomInfo;
 import com.system.mconcentrator.mconcentrator.scrollablepanel.ScrollablePanelAdapter;
+import com.system.mconcentrator.mconcentrator.utils.Const;
 import com.system.mconcentrator.mconcentrator.utils.Conversion;
 import com.system.mconcentrator.mconcentrator.utils.LogHelper;
 
@@ -24,9 +28,14 @@ import java.util.List;
 
 import static com.system.mconcentrator.mconcentrator.utils.Conversion.getCrc;
 import static com.system.mconcentrator.mconcentrator.utils.Conversion.hexStr2Bytes;
+import static com.system.mconcentrator.mconcentrator.utils.Conversion.readmeterTime;
+import static com.system.mconcentrator.mconcentrator.utils.Conversion.readmeterdataanalynsis;
 import static com.system.mconcentrator.mconcentrator.utils.Conversion.twoDataReverseOrder;
 import static com.system.mconcentrator.mconcentrator.utils.protocol.CollectionCommand;
+import static com.system.mconcentrator.mconcentrator.utils.protocol.CopyMeterCommand;
 import static com.system.mconcentrator.mconcentrator.utils.protocol.DeviceInfoProtocolEnd;
+import static com.system.mconcentrator.mconcentrator.utils.protocol.DeviceInfoProtocolEnd1;
+import static com.system.mconcentrator.mconcentrator.utils.protocol.ReadAllMeterCommand;
 import static com.system.mconcentrator.mconcentrator.utils.protocol.SendDeviceInfoProtocolHead;
 import static com.system.mconcentrator.mconcentrator.utils.protocol.TcpIpCommand;
 
@@ -44,7 +53,7 @@ public class CopyMeter188Activity extends SerialPortActivity implements View.OnC
     //控件
     private Button readfileFromDb;
     private Button SavafileToDb;
-    private Button CopyOneMeter;
+    private Button CopyMeterData;
     private Button CopyAllMeter;
 
     ScrollablePanel scrollablePanel;
@@ -56,6 +65,7 @@ public class CopyMeter188Activity extends SerialPortActivity implements View.OnC
     //接收数据处理
     StringBuffer txtsb;
     Boolean StartFlag = false;
+    Boolean receiveflag = false;
 
 
     @Override
@@ -73,7 +83,7 @@ public class CopyMeter188Activity extends SerialPortActivity implements View.OnC
         Back_tv.setOnClickListener(this);
         readfileFromDb.setOnClickListener(this);
         SavafileToDb.setOnClickListener(this);
-        CopyOneMeter.setOnClickListener(this);
+        CopyMeterData.setOnClickListener(this);
         CopyAllMeter.setOnClickListener(this);
         scrollablePanelAdapter.setOnTableNumClickListener(this);
     }
@@ -112,7 +122,7 @@ public class CopyMeter188Activity extends SerialPortActivity implements View.OnC
 
         readfileFromDb = (Button) findViewById(R.id.readfileFromDb);
         SavafileToDb = (Button) findViewById(R.id.SavafileToDb);
-        CopyOneMeter = (Button) findViewById(R.id.CopyOneMeter);
+        CopyMeterData = (Button) findViewById(R.id.CopyMeterData);
         CopyAllMeter = (Button) findViewById(R.id.CopyAllMeter);
     }
 
@@ -154,11 +164,28 @@ public class CopyMeter188Activity extends SerialPortActivity implements View.OnC
                     data.update(i+1);
                 }
                 break;
-            case R.id.CopyOneMeter:
+            case R.id.CopyMeterData:
+                txtsb.delete(0, txtsb.length());//删除所有的数据
+                String copyallmeterstr1 ="FE"+CopyMeterCommand;
+                String copyallmeterstr2 =SendDeviceInfoProtocolHead+copyallmeterstr1+getCrc(copyallmeterstr1)+DeviceInfoProtocolEnd;
+                LogHelper.d(TAG+"copyallmeterstr2",copyallmeterstr2);
+                try {
+                    mOutputStream.write(hexStr2Bytes(copyallmeterstr2));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
                 break;
             case R.id.CopyAllMeter:
-
+                txtsb.delete(0, txtsb.length());//删除所有的数据
+                String ReadAllMeterStr1 = "FC"+ReadAllMeterCommand+"FFFFFFFFFFFF";
+                String ReadAllMeterStr2 = SendDeviceInfoProtocolHead+ReadAllMeterStr1+getCrc(ReadAllMeterStr1)+DeviceInfoProtocolEnd;
+                LogHelper.d(TAG+"ReadAllMeterStr2",ReadAllMeterStr2);
+                try {
+                    mOutputStream.write(hexStr2Bytes(ReadAllMeterStr2));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 break;
             case R.id.Back_tv:
                 finish();
@@ -276,9 +303,6 @@ public class CopyMeter188Activity extends SerialPortActivity implements View.OnC
     }
 
 
-    private void readDBtofile() {
-
-    }
 
     @Override
     protected void onDataReceived(byte[] buffer, int size) {
@@ -289,7 +313,6 @@ public class CopyMeter188Activity extends SerialPortActivity implements View.OnC
 //            LogHelper.d("onDataReceived+++txt", txt.toString());
 //            LogHelper.d("onDataReceived+++txtsb", txtsb.toString());
 //        }
-
 
         //设置开始接收的头部
         if (txt != null) {
@@ -306,20 +329,21 @@ public class CopyMeter188Activity extends SerialPortActivity implements View.OnC
                     StartFlag = true;
                     LogHelper.d(TAG+"continue ", "continue");
                     LogHelper.d(TAG+"txtsb", txtsb.toString());
-                    LogHelper.d(TAG+"txtsb.substring(txtsb.length() - 2)", txtsb.substring(txtsb.length() - 2));
+                    LogHelper.d(TAG+"txtsb.substring(txtsb.length() - 2)", txtsb.substring(txtsb.length() - 4));
                     //判断接收的字符串是否结束
-                    if (DeviceInfoProtocolEnd.equals(txtsb.substring(txtsb.length() - 2))&&txtsb.length() >= 56) {
+                    if (DeviceInfoProtocolEnd1.equals(txtsb.substring(txtsb.length() - 4))) {
                         //判断CRC校验码,如果校验码正确，则接收到全部数据
-                        String onDataReceivedCRC1 = txtsb.substring(txtsb.length() - 6, txtsb.length() - 2);
-                        String onDataReceivedCRC2 = getCrc(txtsb.substring(50, txtsb.length() - 6));
-                        LogHelper.d(TAG+"onDataReceivedCRC1 ", txtsb.substring(txtsb.length() - 6, txtsb.length() - 2));
-                        LogHelper.d(TAG+"onDataReceivedCRC2 ", getCrc(txtsb.substring(50, txtsb.length() - 6)));
+                        String onDataReceivedCRC1 = txtsb.substring(txtsb.length() - 8, txtsb.length() - 4);
+                        String onDataReceivedCRC2 = getCrc(txtsb.substring(8, txtsb.length() - 8));
+                        LogHelper.d(TAG+"onDataReceivedCRC1 ", onDataReceivedCRC1);
+                        LogHelper.d(TAG+"onDataReceivedCRC2 ", onDataReceivedCRC2);
                             if (onDataReceivedCRC1.equals(onDataReceivedCRC2)){
                                 LogHelper.d(TAG+"onDataReceived+++txtsb2end", txtsb.toString());
                                 LogHelper.d(TAG+"onDataReceived+++txtsblength2end", Integer.toString(txtsb.length()));
                                 //加个变量缓存接收到的数据用handler发送出去
                                 StartFlag = false;
-                                txtsb.delete(0, txtsb.length());//删除所有的数据
+                                receiveflag = true;
+                               // txtsb.delete(0, txtsb.length());//删除所有的数据
                             }
 
                     } else {
@@ -336,13 +360,102 @@ public class CopyMeter188Activity extends SerialPortActivity implements View.OnC
                 LogHelper.d("end ", "end");
             }
 
+            //处理接收字符串,判断字符串中的标志位
+            if(receiveflag == true){
+                receiveflag = false;
+                //接收数据完成
+                String flagStr = txtsb.substring(8,10);
+                final String mRdata =  txtsb.toString();
+                LogHelper.d(TAG+"flagStr ", flagStr);
+                switch (flagStr){
+                    case "FE" :
+
+                        break;
+
+                    case "FD" :
+                        break;
+
+                    case "FC" :
+                        LogHelper.d(TAG+"FC","FC+++++");
+
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                //做耗时操作
+                                //得到表的数量
+                                int metercount = (mRdata.length()-18)/66;
+                                LogHelper.d(TAG+"metercount",Integer.toString(metercount));
+                                String [][] mdataArray = new String[metercount][3];
+                                for(int i =0;i <metercount;i++){
+                                   // mdataArray[i][0] = mRdata.substring(10+i*66,22+i*66);
+                                   // mdataArray[i][1] = mRdata.substring(22+i*66,34+i*66);
+                                    mdataArray[i][0] = mRdata.substring(34+i*66,42+i*66);
+                                    mdataArray[i][1] = mRdata.substring(42+i*66,44+i*66);
+                                    mdataArray[i][2] = mRdata.substring(48+i*66,76+i*66);
+                                }
+//                                for(int i = 0;i<mdataArray.length;i++)
+//                                for(int j = 0;j<mdataArray[i].length;j++)
+//                                {
+//                                   LogHelper.d(TAG+"mdataArray"+i+j,mdataArray[i][j]);
+//                                }
+                                String [][] mdataArray1 = new String[metercount][3];
+                                for(int i = 0;i<mdataArray.length;i++)
+                                {
+                                    //读数调整为十进制
+                                    mdataArray1[i][0] = readmeterdataanalynsis(mdataArray[i][0]);
+                                    //状态不变
+                                    mdataArray1[i][1] = mdataArray[i][1];
+                                    //解析时间
+                                    mdataArray1[i][2] = readmeterTime(mdataArray[i][2]);
+
+                                }
+                                 for(int i = 0;i<mdataArray1.length;i++)
+                                for(int j = 0;j<mdataArray1[i].length;j++)
+                                {
+                                   LogHelper.d(TAG+"mdataArray1"+i+j,mdataArray1[i][j]);
+                                }
+                                //发送数据
+                                Message msg1 = new Message();
+                                msg1.what = Const.readallmeter;
+                                msg1.obj = mdataArray1;
+                                handler.sendMessage(msg1);
+                                txtsb.delete(0, txtsb.length());//删除所有的数据
+                            }
+                        }).start();
+
+                        break;
+            }
+            }
+
+
         }
+
 
 
 //        LogHelper.d("onDataReceived+++txtsb", txtsb.toString());
 //        LogHelper.d("onDataReceived+++txtsblength", Integer.toString(txtsb.length()));
 
     }
+
+
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case Const.readallmeter:
+                    String[][] readallmeterString = (String[][]) msg.obj;
+                    for(int i = 0;i<readallmeterString.length;i++)
+                        for(int j = 0;j<readallmeterString[i].length;j++)
+                        {
+                            LogHelper.d(TAG+"readallmeterString"+i+j,readallmeterString[i][j]);
+                        }
+                   // LogHelper.d(TAG+"readallmeterString",readallmeterString);
+                    break;
+
+            }
+        }
+    };
 
     @Override
     public void tableNumclickListener(int row, int column, List<List<OrderInfo>>

@@ -236,19 +236,22 @@ public class Conversion {
     {
         byte[] bytedata1 = hexStr2Bytes(data);
         String CrcAs="",CrcBs="";
+        int CrcA = 0,CrcB = 0,CrcC = 0;
 
-
-        int CrcA = bytedata1[0];
-        int CrcB = bytedata1[1];
-        int CrcC = bytedata1[2];
-        for(int i=2;i<bytedata1.length;i++)
-        {
-            CrcC = (la00[CrcA] ^ CrcC)&0xFF;
-            CrcA = (ha00[CrcA] ^ CrcB)&0xFF;
-            CrcB = CrcC;
-            if(i!=bytedata1.length-1)
-                CrcC = bytedata1[i+1];
+        CrcA = bytedata1[0]&0xFF;
+        if(bytedata1.length>=2)
+            CrcB = bytedata1[1]&0xFF;
+        if(bytedata1.length>=3) {
+            CrcC = bytedata1[2] & 0xFF;
+            for (int i = 2; i < bytedata1.length; i++) {
+                CrcC = (la00[CrcA] ^ CrcC) & 0xFF;
+                CrcA = (ha00[CrcA] ^ CrcB) & 0xFF;
+                CrcB = CrcC;
+                if (i != bytedata1.length - 1)
+                    CrcC = bytedata1[i + 1];
+            }
         }
+
         CrcAs = Integer.toHexString(CrcA); //得到最终的CRC值
         CrcBs = Integer.toHexString(CrcB);
         if(CrcAs.length()<2)
@@ -356,4 +359,39 @@ public class Conversion {
 
         return sb.toString();
     }
+
+    /**
+     * 十六进制字符串转换为十进制的字符串，最后两位是小数，其他位是整数，读取表读数使用
+     * 00110000 ————> 17.0(倒序)
+     * @param data
+     * @return
+     */
+
+    public static  String readmeterdataanalynsis(String data)
+    {
+        int sum1 = 0,sum2 = 0;
+
+        data = twoDataReverseOrder(data);
+        String str1  =  data.substring(0,data.length()-2);
+        System.out.println("str1   "+str1);
+        String str2  =  data.substring(data.length()-2);
+        System.out.println("str2   "+str2);
+
+        sum1 = Integer.parseInt(str1,16);
+        sum2 = Integer.parseInt(str2,16);
+        System.out.println("sum1   "+Integer.toString(sum1));
+        System.out.println("sum2   "+Integer.toString(sum2));
+
+        data = Integer.toString(sum1)+"."+Integer.toString(sum2);
+
+        return data;
+    }
+    public static  String readmeterTime(String time)
+    {
+        String time1= StringToStringArrayToASCII(time);
+        time1 = time1.substring(0,4)+"-"+time1.substring(4,6)+"-"+time1.substring(6,8)+"-"+time1.substring(8,10)+"-"
+                +time1.substring(10,12)+"-"+time1.substring(12,14);
+        return time1;
+    }
+
 }

@@ -12,8 +12,13 @@ public class protocol {
     public final static String ReceiveDeviceInfoProtocolHead = ""; //发送数据包头
     //数据包尾
     public final static String DeviceInfoProtocolEnd = "45"; //发送数据包尾
+    public final static String DeviceInfoProtocolEnd1 = "450D"; //发送数据包尾
 
     //指令
+    public final static String CopyMeterCommand= "585858";   //采集表数据组合指令
+    public final static String ReadOneMeterCommand = "515151";   //读单只表指令
+    public final static String ReadAllMeterCommand = "565656";   //读所有表指令
+
     public final static String ReadCommand = "525252";   //RRR 读取指令
     public final static String CollectionCommand = "4D4D4D";  //MMM  采集指令
     public final static String SetSystemTime = "545454";     //TTT  设置系统时钟
