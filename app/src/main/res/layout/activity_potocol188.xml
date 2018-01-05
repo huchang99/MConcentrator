@@ -332,6 +332,8 @@
                 android:textColor="@color/TextColor"
                 android:textSize="20sp" />
 
+
+
             <Button
                 android:id="@+id/copyMeterBt"
                 android:layout_width="match_parent"
@@ -341,6 +343,18 @@
                 android:background="@drawable/buttontbox"
                 android:gravity="center"
                 android:text="抄表"
+                android:textColor="@color/TextColor"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/selectMeterAddr"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/buttontbox"
+                android:gravity="center"
+                android:text="选择表地址"
                 android:textColor="@color/TextColor"
                 android:textSize="20sp" />
 

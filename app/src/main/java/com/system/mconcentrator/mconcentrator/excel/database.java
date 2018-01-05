@@ -23,9 +23,10 @@ public class database {
 
 
     private static final String TAG = "database";
-   // private String sourcefile = "/storage/usbhost/8_4/ExtraMeter.xls";
-    private String sourcefile = "/storage/usbhost2/8_4/ExtraMeter.xls";
-    private String OutfilePath = "/storage/usbhost2/8_4/Meter1.xls";
+    private String sourcefile = "/storage/usbhost/8_4/ExtraMeter.xls";
+    private String OutfilePath = "/storage/usbhost/8_4/Meter1.xls";
+  //  private String sourcefile = "/storage/usbhost2/8_4/ExtraMeter.xls";
+  //  private String OutfilePath = "/storage/usbhost2/8_4/Meter1.xls";
     private Workbook wbook;
     private WritableWorkbook wwbCopy;
     private WritableSheet shSheet;

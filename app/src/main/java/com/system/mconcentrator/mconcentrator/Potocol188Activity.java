@@ -2,22 +2,31 @@ package com.system.mconcentrator.mconcentrator;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.system.mconcentrator.mconcentrator.application.MyApplication;
+import com.system.mconcentrator.mconcentrator.excel.MeterData;
+import com.system.mconcentrator.mconcentrator.selfdefineclass.dialog_select;
 import com.system.mconcentrator.mconcentrator.utils.Conversion;
 import com.system.mconcentrator.mconcentrator.utils.LogHelper;
 
+import org.litepal.crud.DataSupport;
+
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 import jxl.Sheet;
@@ -28,8 +37,11 @@ import static android.content.Intent.ACTION_MEDIA_MOUNTED;
 import static android.content.Intent.ACTION_MEDIA_UNMOUNTED;
 import static android.content.Intent.ACTION_TIME_TICK;
 import static com.system.mconcentrator.mconcentrator.utils.Conversion.StringToStringArrayToASCII;
+import static com.system.mconcentrator.mconcentrator.utils.Conversion.getCrc;
 import static com.system.mconcentrator.mconcentrator.utils.Conversion.hexStr2Bytes;
+import static com.system.mconcentrator.mconcentrator.utils.Conversion.twoDataReverseOrder;
 import static com.system.mconcentrator.mconcentrator.utils.protocol.DeviceInfoProtocolEnd;
+import static com.system.mconcentrator.mconcentrator.utils.protocol.OffgateCommand;
 import static com.system.mconcentrator.mconcentrator.utils.protocol.OpengateCommand;
 import static com.system.mconcentrator.mconcentrator.utils.protocol.PageOne;
 import static com.system.mconcentrator.mconcentrator.utils.protocol.ReadCommand;
@@ -69,6 +81,7 @@ public class Potocol188Activity extends SerialPortActivity implements View.OnCli
     private Button copyMeterBt; //读抄表按钮
     private Button opengatebt;//开阀
     private Button offatebt;//关阀
+    private Button selectMeterAddr;//选择表地址
 
 
     //数据处理
@@ -85,6 +98,13 @@ public class Potocol188Activity extends SerialPortActivity implements View.OnCli
     String TwotimeDayStr;            //第二行时间day字符串
     String timeHourStr;              //小时选择字符串
     String timeMinuteStr;            //分选择字符串
+
+    //数据库中的表地址
+    public  ArrayList<String> Listdata;
+    public String MeterAddrTemp;
+
+    //数据库查询临时缓冲区
+    public List<MeterData> mdatabuf;
 
     //取出集中器的地址
   //  private SharedPreferences SpMeterAddr;
@@ -131,6 +151,7 @@ public class Potocol188Activity extends SerialPortActivity implements View.OnCli
         copyMeterBt = (Button)findViewById(R.id.copyMeterBt); //抄表按钮
         opengatebt = (Button)findViewById(R.id.opengatebt);
         offatebt = (Button)findViewById(R.id.offatebt);
+        selectMeterAddr = (Button)findViewById(R.id.selectMeterAddr);
 
     }
 
@@ -170,8 +191,15 @@ public class Potocol188Activity extends SerialPortActivity implements View.OnCli
         //初始化数据
         txtsb = new StringBuffer();
 
-        //初始化shareperfence
-      //  SpMeterAddr = getSharedPreferences("savePotocol", MODE_PRIVATE);
+        Listdata = new ArrayList<>();
+//        for (int i = 1; i <= 20; i++) {
+//            //list.add(new ItemBean(R.mipmap.ic_launcher, "Title" + i, "Content" + i));
+//            Listdata.add("item"+i);
+//        }
+
+        //初始化数据库
+        mdatabuf = DataSupport.findAll(MeterData.class);
+
     }
 
     private void initLinstener() {
@@ -180,6 +208,7 @@ public class Potocol188Activity extends SerialPortActivity implements View.OnCli
         copyMeterBt.setOnClickListener(this);
         opengatebt.setOnClickListener(this);
         offatebt.setOnClickListener(this);
+        selectMeterAddr.setOnClickListener(this);
     }
 
     @Override
@@ -223,14 +252,57 @@ public class Potocol188Activity extends SerialPortActivity implements View.OnCli
 
             case R.id.opengatebt:
                 txtsb.delete(0, txtsb.length());//删除所有的数据
-//                String MeterAddr = SpMeterAddr.getString("SaveMeterAddr",null);
-//                LogHelper.d(TAG+"MeterAddr",MeterAddr);
-//               String Sendopengatestr1 =OpengateCommand+
-////                        String Sendopengatestr2 =TcpIpCommand
+                if(MeterAddrTemp.length()<0)
+                {
+                    Toast.makeText(getApplicationContext(),"请选择有效的表地址",Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    String MeterAddr = MeterAddrTemp;
+                    LogHelper.d(TAG+"MeterAddr",MeterAddr);
+                    //倒序表地址
+                    MeterAddr =twoDataReverseOrder(MeterAddr);
+                    String Sendopengatestr1 =OpengateCommand+MeterAddr;
+                    String Sendopengatestr2 =TcpIpCommand+SendDeviceInfoProtocolHead+OpengateCommand+MeterAddr+getCrc(Sendopengatestr1)+DeviceInfoProtocolEnd;
+                    LogHelper.d(TAG+"Sendopengatestr2",Sendopengatestr2);
+                    try {
+                        mOutputStream.write(hexStr2Bytes(Sendopengatestr2));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                break;
+
+            case R.id.selectMeterAddr:
+                //构建表地址数据
+                for(int i = 0;i < mdatabuf.size();i++)
+                {
+                    Listdata.add(mdatabuf.get(i).getMeterNum());
+                }
+                selectMeteraddrDialog();
                 break;
 
             case R.id.offatebt:
                 txtsb.delete(0, txtsb.length());//删除所有的数据
+                if(MeterAddrTemp.length()<0)
+                {
+                    Toast.makeText(getApplicationContext(),"请选择有效的表地址",Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    String MeterAddr = MeterAddrTemp;
+                    LogHelper.d(TAG+"MeterAddr",MeterAddr);
+                    //倒序表地址
+                    MeterAddr =twoDataReverseOrder(MeterAddr);
+                    String Sendoffgatestr1 =OffgateCommand+MeterAddr;
+                    String Sendoffgatestr2 =TcpIpCommand+SendDeviceInfoProtocolHead+OffgateCommand+MeterAddr+getCrc(Sendoffgatestr1)+DeviceInfoProtocolEnd;
+                    LogHelper.d(TAG+"Sendopengatestr2",Sendoffgatestr2);
+                    try {
+                        mOutputStream.write(hexStr2Bytes(Sendoffgatestr2));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                }
                 break;
 
             case R.id.Back_tv:
@@ -320,6 +392,29 @@ public class Potocol188Activity extends SerialPortActivity implements View.OnCli
             });
         }
 
+    }
+
+    private void selectMeteraddrDialog(){
+        final dialog_select.Builder builder = new dialog_select.Builder(this);
+        builder.setTitle("表地址选择");
+        builder.setlist(Listdata);
+        builder.setPositiveButton("确定",new DialogInterface.OnClickListener(){
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                MeterAddrTemp = builder.getDialogcontent();
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton("取消",new DialogInterface.OnClickListener(){
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        builder.creat().show();
     }
 
 
