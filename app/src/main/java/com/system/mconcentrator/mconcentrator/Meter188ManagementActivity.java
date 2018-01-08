@@ -43,9 +43,11 @@ import static android.content.Intent.ACTION_MEDIA_MOUNTED;
 import static android.content.Intent.ACTION_MEDIA_UNMOUNTED;
 import static android.content.Intent.ACTION_TIME_TICK;
 import static com.system.mconcentrator.mconcentrator.R.id.FirsttimeDay;
+import static com.system.mconcentrator.mconcentrator.utils.Conversion.CompareDataLength;
 import static com.system.mconcentrator.mconcentrator.utils.Conversion.StringAddOne;
 import static com.system.mconcentrator.mconcentrator.utils.Conversion.StringToHEXAsciiString;
 import static com.system.mconcentrator.mconcentrator.utils.Conversion.StringToStringArrayToASCII;
+import static com.system.mconcentrator.mconcentrator.utils.Conversion.StringleftAddOne;
 import static com.system.mconcentrator.mconcentrator.utils.Conversion.getCrc;
 import static com.system.mconcentrator.mconcentrator.utils.Conversion.hexStr2Bytes;
 import static com.system.mconcentrator.mconcentrator.utils.protocol.DeviceInfoProtocolEnd;
@@ -369,10 +371,11 @@ public class Meter188ManagementActivity extends SerialPortActivity implements Vi
                     saveTimecopy.edit().putString("TimeMinute", TimeMinute).commit();
 
                     //转换成要输入的格式
-                    String TimeFisrtdaytemp = StringToHEXAsciiString(TimeFisrtday);
-                    String TimeTwodaytemp = StringToHEXAsciiString(TimeTwoday);
-                    String TimeHourtemp = StringToHEXAsciiString(TimeHour);
-                    String TimeMinutetemp = StringToHEXAsciiString(TimeMinute);
+                    String TimeFisrtdaytemp = StringToHEXAsciiString(CompareDataLength(TimeFisrtday,2,true));
+                    String TimeTwodaytemp = StringToHEXAsciiString(CompareDataLength(TimeTwoday,2,true));
+                    String TimeHourtemp = StringToHEXAsciiString(CompareDataLength(TimeHour,2,true));
+                    String TimeMinutetemp = StringToHEXAsciiString(CompareDataLength(TimeMinute,2,true));
+
                     LogHelper.d("TimeFisrtdaytemp", TimeFisrtdaytemp);
                     LogHelper.d("TimeTwodaytemp", TimeTwodaytemp);
                     LogHelper.d("TimeHourtemp", TimeHourtemp);

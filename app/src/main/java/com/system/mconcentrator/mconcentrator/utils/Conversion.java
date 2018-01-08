@@ -1,6 +1,5 @@
 package com.system.mconcentrator.mconcentrator.utils;
 
-import java.util.Arrays;
 import java.util.Formatter;
 import java.util.Locale;
 
@@ -32,12 +31,13 @@ public class Conversion {
         for (int i = 0; i < len; i++) {
 //            if (i < len - 1)
 //                formatter.format("%02X", b[i]);
-           // else
-                formatter.format("%02X", b[i]);
+            // else
+            formatter.format("%02X", b[i]);
         }
         formatter.close();
         return sb.toString();
     }
+
     public static String bytesToString(byte[] bytes) {
         final char[] hexArray = "0123456789ABCDEF".toCharArray();
         char[] hexChars = new char[bytes.length * 2];
@@ -53,7 +53,6 @@ public class Conversion {
         }
         return sb.toString();
     }
-
 
 
     // Convert hex String to Byte
@@ -79,6 +78,7 @@ public class Conversion {
         }
         return i;
     }
+
     public static byte[] stringToBytes(String s) {
         byte[] buf = new byte[s.length() / 2];
         for (int i = 0; i < buf.length; i++) {
@@ -94,21 +94,22 @@ public class Conversion {
 
     /**
      * bytes字符串转换为Byte值
+     *
      * @param src String Byte字符串，每个Byte之间没有分隔符(字符范围:0-9 A-F)
      * @return byte[]
      */
-    public static byte[] hexStr2Bytes(String src){
+    public static byte[] hexStr2Bytes(String src) {
         /*对输入值进行规范化整理*/
         src = src.trim().replace(" ", "").toUpperCase(Locale.US);
         //处理值初始化
-        int m=0,n=0;
-        int iLen=src.length()/2; //计算长度
+        int m = 0, n = 0;
+        int iLen = src.length() / 2; //计算长度
         byte[] ret = new byte[iLen]; //分配存储空间
 
-        for (int i = 0; i < iLen; i++){
-            m=i*2+1;
-            n=m+1;
-            ret[i] = (byte)(Integer.decode("0x"+ src.substring(i*2, m) + src.substring(m,n)) & 0xFF);
+        for (int i = 0; i < iLen; i++) {
+            m = i * 2 + 1;
+            n = m + 1;
+            ret[i] = (byte) (Integer.decode("0x" + src.substring(i * 2, m) + src.substring(m, n)) & 0xFF);
         }
         return ret;
     }
@@ -229,19 +230,19 @@ public class Conversion {
 
     /**
      * 188协议获取Crc的值
+     *
      * @param data
      * @return
      */
-    public static String getCrc(String data)
-    {
+    public static String getCrc(String data) {
         byte[] bytedata1 = hexStr2Bytes(data);
-        String CrcAs="",CrcBs="";
-        int CrcA = 0,CrcB = 0,CrcC = 0;
+        String CrcAs = "", CrcBs = "";
+        int CrcA = 0, CrcB = 0, CrcC = 0;
 
-        CrcA = bytedata1[0]&0xFF;
-        if(bytedata1.length>=2)
-            CrcB = bytedata1[1]&0xFF;
-        if(bytedata1.length>=3) {
+        CrcA = bytedata1[0] & 0xFF;
+        if (bytedata1.length >= 2)
+            CrcB = bytedata1[1] & 0xFF;
+        if (bytedata1.length >= 3) {
             CrcC = bytedata1[2] & 0xFF;
             for (int i = 2; i < bytedata1.length; i++) {
                 CrcC = (la00[CrcA] ^ CrcC) & 0xFF;
@@ -254,11 +255,11 @@ public class Conversion {
 
         CrcAs = Integer.toHexString(CrcA); //得到最终的CRC值
         CrcBs = Integer.toHexString(CrcB);
-        if(CrcAs.length()<2)
-            CrcAs = "0"+CrcAs;
-        if(CrcBs.length()<2)
-            CrcBs = "0"+CrcBs;
-        data=CrcAs+CrcBs;
+        if (CrcAs.length() < 2)
+            CrcAs = "0" + CrcAs;
+        if (CrcBs.length() < 2)
+            CrcBs = "0" + CrcBs;
+        data = CrcAs + CrcBs;
         LogHelper.d("++++CRCdata", data);
         return data.toUpperCase();
     }
@@ -286,61 +287,83 @@ public class Conversion {
     /**
      * 将数据string 转换成十进制对应的ASCII码
      * 3938373635343332313534  --> 98765432154
+     *
      * @param str
      * @return
      */
-    public static String StringToStringArrayToASCII(String str)
-    {
+    public static String StringToStringArrayToASCII(String str) {
         StringBuilder sb = new StringBuilder();
 
-        int m=str.length()/2;
-        if(m*2<str.length()){
+        int m = str.length() / 2;
+        if (m * 2 < str.length()) {
             m++;
         }
-        String[] strs=new String[m];
-        int j=0;
-        for(int i=0;i<str.length();i++){
-            if(i%2==0){//每隔两个
-                strs[j]=""+str.charAt(i);
-            }else{
-                strs[j]=strs[j]+str.charAt(i);//将字符加上两个空格
+        String[] strs = new String[m];
+        int j = 0;
+        for (int i = 0; i < str.length(); i++) {
+            if (i % 2 == 0) {//每隔两个
+                strs[j] = "" + str.charAt(i);
+            } else {
+                strs[j] = strs[j] + str.charAt(i);//将字符加上两个空格
                 j++;
             }
         }
         //System.out.println(Arrays.toString(strs));
-        int code ;
+        int code;
         //code = Integer.parseInt(strs[0], 16);
         // System.out.println((char)code);
-        for(int n=0;n<strs.length;n++)
-        {
+        for (int n = 0; n < strs.length; n++) {
             code = Integer.parseInt(strs[n], 16);
-            sb.append((char)code);
+            sb.append((char) code);
         }
         return sb.toString();
         //System.out.println(sb.toString());
     }
 
-   //把对应的十进制的字符串转换成ASCII码的字符串 如 1 -> 31
-    public static String StringToHEXAsciiString(String str)
-    {
+    //把对应的十进制的字符串转换成ASCII码的字符串 如 1 -> 31
+    public static String StringToHEXAsciiString(String str) {
         StringBuilder sb = new StringBuilder();
         char[] strs = new char[str.length()];
         int j = 0;
-        for(int i = 0;i<str.length();i++)
-        {
-            strs[j] =str.charAt(i);
+        for (int i = 0; i < str.length(); i++) {
+            strs[j] = str.charAt(i);
             sb.append(Integer.toHexString(strs[j]));
             j++;
         }
         return sb.toString();
 
     }
+
     //在字符串后面补0
-    public static String StringAddOne(String str,int len)
-    {
-        for(int i = 0;i<len;i++)
-        {
-            str = str+"0";
+    public static String StringAddOne(String str, int len) {
+        for (int i = 0; i < len; i++) {
+            str = str + "0";
+        }
+        return str;
+    }
+
+    //在字符串前面补0
+    public static String StringleftAddOne(String str, int len) {
+        for (int i = 0; i < len; i++) {
+            str = "0" + str;
+        }
+        return str;
+    }
+
+
+    /**
+     * 判断数据的长度
+     *
+     * @param str
+     * @param len
+     * @param flag 从左边加0 还是从右边加0
+     * @return
+     */
+    public static String CompareDataLength(String str, int len, boolean flag) {
+        if (str.length() < len && flag == true)
+            str = StringleftAddOne(str, len - str.length());
+        if (str.length() < len && flag == false) {
+            str = StringAddOne(str,len-str.length());
         }
         return str;
     }
@@ -349,12 +372,10 @@ public class Conversion {
      * 将一个字符串从后面两位开始倒序
      */
 
-    public static String twoDataReverseOrder(String str)
-    {
+    public static String twoDataReverseOrder(String str) {
         StringBuffer sb = new StringBuffer();
-        for (int i=str.length(); i>0; i-=2)
-        {
-            sb.append(str.substring(i-2,i));
+        for (int i = str.length(); i > 0; i -= 2) {
+            sb.append(str.substring(i - 2, i));
         }
 
         return sb.toString();
@@ -363,34 +384,34 @@ public class Conversion {
     /**
      * 十六进制字符串转换为十进制的字符串，最后两位是小数，其他位是整数，读取表读数使用
      * 00110000 ————> 17.0(倒序)
+     *
      * @param data
      * @return
      */
 
-    public static  String readmeterdataanalynsis(String data)
-    {
-        int sum1 = 0,sum2 = 0;
+    public static String readmeterdataanalynsis(String data) {
+        int sum1 = 0, sum2 = 0;
 
         data = twoDataReverseOrder(data);
-        String str1  =  data.substring(0,data.length()-2);
-        System.out.println("str1   "+str1);
-        String str2  =  data.substring(data.length()-2);
-        System.out.println("str2   "+str2);
+        String str1 = data.substring(0, data.length() - 2);
+        System.out.println("str1   " + str1);
+        String str2 = data.substring(data.length() - 2);
+        System.out.println("str2   " + str2);
 
-        sum1 = Integer.parseInt(str1,16);
-        sum2 = Integer.parseInt(str2,16);
-        System.out.println("sum1   "+Integer.toString(sum1));
-        System.out.println("sum2   "+Integer.toString(sum2));
+        sum1 = Integer.parseInt(str1, 16);
+        sum2 = Integer.parseInt(str2, 16);
+        System.out.println("sum1   " + Integer.toString(sum1));
+        System.out.println("sum2   " + Integer.toString(sum2));
 
-        data = Integer.toString(sum1)+"."+Integer.toString(sum2);
+        data = Integer.toString(sum1) + "." + Integer.toString(sum2);
 
         return data;
     }
-    public static  String readmeterTime(String time)
-    {
-        String time1= StringToStringArrayToASCII(time);
-        time1 = time1.substring(0,4)+"-"+time1.substring(4,6)+"-"+time1.substring(6,8)+"-"+time1.substring(8,10)+"-"
-                +time1.substring(10,12)+"-"+time1.substring(12,14);
+
+    public static String readmeterTime(String time) {
+        String time1 = StringToStringArrayToASCII(time);
+        time1 = time1.substring(0, 4) + "-" + time1.substring(4, 6) + "-" + time1.substring(6, 8) + "-" + time1.substring(8, 10) + "-"
+                + time1.substring(10, 12) + "-" + time1.substring(12, 14);
         return time1;
     }
 
