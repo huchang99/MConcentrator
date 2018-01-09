@@ -22,6 +22,7 @@ public class LunchActivity extends Activity implements View.OnClickListener {
 
     private Button loginBt;
     private SharedPreferences loginsp;//用来管理存储帐号和密码，记住密码状态
+    private SharedPreferences savePotocol;
     private EditText usrnameedit;
     private EditText passwordedit;
     private CheckBox savedAccountCheckBox; //记住密码
@@ -54,6 +55,19 @@ public class LunchActivity extends Activity implements View.OnClickListener {
             loginsp.edit().putString("user", "huchang").putString("password", "123").putString("newaccount", "").putString("newpassword", "").commit();
         } else {
             Toast.makeText(LunchActivity.this, "不是第一次", Toast.LENGTH_LONG).show();
+        }
+        /**
+         * 判断是不是第一次设置协议
+         */
+        savePotocol = getSharedPreferences("savePotocol", MODE_PRIVATE);
+        Boolean save_first = savePotocol.getBoolean("save_first", true);
+        if (save_first) {//第一次
+            savePotocol.edit().putBoolean("save_first", false).commit();
+            Toast.makeText(getApplicationContext(), "第一次设置协议", Toast.LENGTH_LONG).show();
+            /*设置最初协议为188*/
+            savePotocol.edit().putString("defalutsavePotocol", "188").commit();
+        } else {
+            Toast.makeText(getApplicationContext(), "不是第一次设置协议", Toast.LENGTH_LONG).show();
         }
 
         /**

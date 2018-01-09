@@ -32,6 +32,7 @@ import static com.system.mconcentrator.mconcentrator.utils.Conversion.hexStr2Byt
 import static com.system.mconcentrator.mconcentrator.utils.Conversion.readmeterTime;
 import static com.system.mconcentrator.mconcentrator.utils.Conversion.readmeterdataanalynsis;
 import static com.system.mconcentrator.mconcentrator.utils.Conversion.twoDataReverseOrder;
+import static com.system.mconcentrator.mconcentrator.utils.MathExtends.subtract;
 import static com.system.mconcentrator.mconcentrator.utils.protocol.CopyMeterCommand;
 import static com.system.mconcentrator.mconcentrator.utils.protocol.DeviceInfoProtocolEnd;
 import static com.system.mconcentrator.mconcentrator.utils.protocol.DeviceInfoProtocolEnd1;
@@ -241,7 +242,7 @@ public class CopyMeter188Activity extends SerialPortActivity implements View.OnC
         dateInfoList.add(dateInfo3);
 
         DateInfo dateInfo4 = new DateInfo();
-        dateInfo4.setDate("表类型");
+        dateInfo4.setDate("表状态");
         dateInfoList.add(dateInfo4);
 
         DateInfo dateInfo5 = new DateInfo();
@@ -493,6 +494,10 @@ public class CopyMeter188Activity extends SerialPortActivity implements View.OnC
                         OrderInfo orderInfo3 = new OrderInfo();
                         orderInfo3.setGuestName(readallmeterString[i][2]);
                         ordersList.get(i).set(9, orderInfo3);
+                        //用量
+                        OrderInfo orderInfo4 = new OrderInfo();
+                        orderInfo4.setGuestName(subtract(readallmeterString[i][0],ordersList.get(i).get(5).getGuestName()));
+                        ordersList.get(i).set(7, orderInfo4);
                     }
                     scrollablePanel.notifyDataSetChanged();
                     break;
@@ -554,7 +559,7 @@ public class CopyMeter188Activity extends SerialPortActivity implements View.OnC
 //        ordersList.get(row-1).set(column-1, orderInfo);
         //更新整个list
         // this.ordersList = ordersList;
-//        scrollablePanelAdapter.setOrderView(row,column+2,viewHolder,true,orderInfo);
+        //  scrollablePanelAdapter.setOrderView(row,column+2,viewHolder,true,orderInfo);
 //        scrollablePanelAdapter.setOrderView(row,column+3,viewHolder,true,orderInfo);
 //        scrollablePanelAdapter.setOrderView(row,column+5,viewHolder,true,orderInfo);
 //        scrollablePanel.notifyDataSetChanged();

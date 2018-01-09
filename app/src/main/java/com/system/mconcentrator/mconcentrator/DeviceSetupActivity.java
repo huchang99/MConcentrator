@@ -105,16 +105,16 @@ public class DeviceSetupActivity extends Activity implements View.OnClickListene
         txtsb = new StringBuffer();
 
         //
-        savePotocol = getSharedPreferences("savePotocol", MODE_PRIVATE);
-        Boolean save_first = savePotocol.getBoolean("save_first", true);
-        if (save_first) {//第一次
-            savePotocol.edit().putBoolean("save_first", false).commit();
-            Toast.makeText(getApplicationContext(), "第一次设置协议", Toast.LENGTH_LONG).show();
-            /*设置最初协议为188*/
-            savePotocol.edit().putString("defalutsavePotocol", "188").commit();
-        } else {
-            Toast.makeText(getApplicationContext(), "不是第一次设置协议", Toast.LENGTH_LONG).show();
-        }
+//        savePotocol = getSharedPreferences("savePotocol", MODE_PRIVATE);
+//        Boolean save_first = savePotocol.getBoolean("save_first", true);
+//        if (save_first) {//第一次
+//            savePotocol.edit().putBoolean("save_first", false).commit();
+//            Toast.makeText(getApplicationContext(), "第一次设置协议", Toast.LENGTH_LONG).show();
+//            /*设置最初协议为188*/
+//            savePotocol.edit().putString("defalutsavePotocol", "188").commit();
+//        } else {
+//            Toast.makeText(getApplicationContext(), "不是第一次设置协议", Toast.LENGTH_LONG).show();
+//        }
 
     }
 
