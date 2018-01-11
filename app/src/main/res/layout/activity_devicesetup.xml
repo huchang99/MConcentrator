@@ -4,7 +4,7 @@
     android:id="@+id/activity_devicesetup"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/start_page_bg2x"
+    android:background="@drawable/start_page2_bg2x"
     android:orientation="vertical"
     tools:context="com.system.mconcentrator.mconcentrator.DeviceSetupActivity">
 
@@ -17,34 +17,32 @@
         android:layout_height="match_parent"
         android:orientation="horizontal">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/inputbox"
-            android:layout_margin="10dp"
+            android:layout_margin="25dp"
             android:orientation="vertical">
 
             <Button
                 android:id="@+id/setTerminalPassWord"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
+                android:layout_width="380dp"
+                android:layout_height="50dp"
                 android:background="@drawable/buttontbox"
-                android:layout_margin="15dp"
                 android:text="修改终端维护登录密码"
                 android:textSize="25sp"
-                android:textColor="@color/TextColor"/>
+                android:textColor="@color/TextColor"
+                android:layout_above="@+id/setCopyMeterPassWord"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="40dp"/>
 
 
             <Button
                 android:id="@+id/setCopyMeterPassWord"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginBottom="15dp"
+                android:layout_width="380dp"
+                android:layout_height="50dp"
+                android:layout_centerInParent="true"
                 android:background="@drawable/buttontbox"
                 android:textSize="25sp"
                 android:textColor="@color/TextColor"
@@ -53,69 +51,67 @@
 
             <Button
                 android:id="@+id/PotocolSet"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginBottom="15dp"
+                android:layout_width="380dp"
+                android:layout_height="50dp"
+                android:layout_below="@+id/setCopyMeterPassWord"
                 android:background="@drawable/buttontbox"
                 android:textSize="25sp"
                 android:textColor="@color/TextColor"
-                android:text="协议地址"/>
+                android:text="协议地址"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="40dp"/>
 
 
-        </LinearLayout>
-        <LinearLayout
+        </RelativeLayout>
+
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/inputbox"
-            android:layout_margin="10dp"
-            android:orientation="vertical">
-
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="25dp"
+            android:layout_marginRight="25dp"
+            >
 
 
             <Button
                 android:id="@+id/TimeSet"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:layout_margin="15dp"
+                android:layout_width="380dp"
+                android:layout_height="50dp"
                 android:background="@drawable/buttontbox"
+                android:layout_centerHorizontal="true"
                 android:textSize="25sp"
+                android:layout_above="@+id/DataInit"
+                android:layout_marginBottom="40dp"
                 android:textColor="@color/TextColor"
                 android:text="时钟配置"/>
 
             <Button
                 android:id="@+id/DataInit"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginBottom="15dp"
+                android:layout_width="380dp"
+                android:layout_height="50dp"
+                android:layout_centerInParent="true"
                 android:background="@drawable/buttontbox"
                 android:textSize="25sp"
                 android:textColor="@color/TextColor"
                 android:text="数据初始化"/>
 
             <Button
+                android:layout_below="@+id/DataInit"
                 android:id="@+id/RestoreFactory"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginBottom="15dp"
+                android:layout_width="380dp"
+                android:layout_height="50dp"
+                android:layout_centerHorizontal="true"
                 android:background="@drawable/buttontbox"
                 android:textSize="25sp"
                 android:textColor="@color/TextColor"
+                android:layout_marginTop="40dp"
                 android:text="恢复出厂"/>
 
 
 
-        </LinearLayout>
+        </RelativeLayout>
 
     </LinearLayout>
 

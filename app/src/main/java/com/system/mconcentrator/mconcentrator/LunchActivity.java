@@ -149,7 +149,7 @@ public class LunchActivity extends Activity implements View.OnClickListener {
                 if (inputuser.equals(user) && inputpassword.equals(password)) {
                     Toast.makeText(LunchActivity.this, "登录成功", Toast.LENGTH_LONG).show();
                      intent.setClass(getApplicationContext(), MenuActivity.class);
-                    //intent.setClass(getApplicationContext(), TestActivity.class);
+                   // intent.setClass(getApplicationContext(), DeviceSetupActivity.class);
                     startActivity(intent);
                     intent = null;
                 } else {

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/start_page_bg2x"
+    android:background="@drawable/start_page2_bg2x"
     tools:context="com.system.mconcentrator.mconcentrator.LocaldebugActivity">
 
     <include
@@ -31,7 +31,7 @@
             android:layout_marginLeft="280dp"
             android:background="@drawable/icon_white"
             android:text="@string/protocol130"
-            android:textColor="@color/mediumvioletred"
+            android:textColor="@color/white"
             android:textSize="18sp" />
 
         <Button
@@ -43,7 +43,7 @@
             android:layout_marginRight="280dp"
             android:background="@drawable/icon_white"
             android:text="@string/protocol188"
-            android:textColor="@color/mediumvioletred" />
+            android:textColor="@color/white" />
 
     </RelativeLayout>
 

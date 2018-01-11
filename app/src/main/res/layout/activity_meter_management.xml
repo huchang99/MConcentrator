@@ -31,7 +31,7 @@
             android:layout_marginLeft="280dp"
             android:background="@drawable/icon_white"
             android:text="@string/protocol130"
-            android:textColor="@color/mediumvioletred"
+            android:textColor="@color/white"
             android:textSize="18sp" />
 
         <Button
@@ -43,7 +43,7 @@
             android:layout_marginRight="280dp"
             android:background="@drawable/icon_white"
             android:text="@string/protocol188"
-            android:textColor="@color/mediumvioletred" />
+            android:textColor="@color/white" />
 
     </RelativeLayout>
 

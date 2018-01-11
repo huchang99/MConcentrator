@@ -42,4 +42,11 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsFloating">true</item>
     </style>
+
+    <style name="cb_test">
+        <!--波纹的颜色-->
+        <item name="colorControlHighlight">#FFFFFF</item>
+        <!--选中的颜色-->
+        <item name="colorAccent">#44B5FF</item>
+    </style>
 </resources>

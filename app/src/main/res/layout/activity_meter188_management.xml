@@ -4,7 +4,7 @@
     android:id="@+id/activity_meter188_management"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/start_page_bg2x"
+    android:background="@drawable/start_page2_bg2x"
     android:orientation="vertical"
     tools:context="com.system.mconcentrator.mconcentrator.Meter188ManagementActivity">
 
@@ -23,7 +23,7 @@
         android:layout_weight="8"
         >
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="10dp"
@@ -33,81 +33,81 @@
 
             <Button
                 android:id="@+id/readMeterAddr"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_width="380dp"
+                android:layout_height="50dp"
                 android:layout_margin="15dp"
-                android:layout_weight="1"
                 android:background="@drawable/buttontbox"
                 android:text="读取地址"
+                android:layout_centerHorizontal="true"
                 android:textColor="@color/TextColor"
                 android:textSize="25sp" />
 
             <TextView
                 android:id="@+id/readAddrinfotv"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginBottom="15dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_weight="1"
+                android:layout_width="380dp"
+                android:layout_height="50dp"
+                android:layout_below="@+id/readMeterAddr"
                 android:background="@drawable/textbox"
                 android:gravity="center"
-                android:textSize="25sp" />
+                android:textSize="25sp"
+                android:layout_marginBottom="15dp"
+                android:layout_centerHorizontal="true"/>
 
             <Button
                 android:id="@+id/setMeterAddr"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginBottom="15dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_weight="1"
+                android:layout_width="380dp"
+                android:layout_height="50dp"
+                android:layout_below="@+id/readAddrinfotv"
                 android:background="@drawable/buttontbox"
                 android:text="设置地址"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="15dp"
                 android:textColor="@color/TextColor"
                 android:textSize="25sp" />
 
             <EditText
                 android:id="@+id/setAddrInfo"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_below="@+id/setMeterAddr"
+                android:layout_width="380dp"
+                android:layout_height="50dp"
                 android:layout_marginBottom="15dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_weight="1"
                 android:background="@drawable/textbox"
                 android:gravity="center"
                 android:maxLength="11"
                 android:numeric="integer"
+                android:layout_centerHorizontal="true"
                 android:textSize="25sp" />
 
             <Button
                 android:id="@+id/SetModemInfoBt"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_width="380dp"
+                android:layout_height="50dp"
                 android:layout_gravity="center"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_weight="1"
+                android:layout_marginBottom="15dp"
+                android:layout_below="@+id/setAddrInfo"
                 android:background="@drawable/buttontbox"
                 android:text="设置Modem参数"
                 android:textColor="@color/TextColor"
+                android:layout_centerHorizontal="true"
                 android:textSize="18sp" />
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_width="380dp"
+                android:layout_height="50dp"
                 android:layout_weight="1"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_below="@+id/SetModemInfoBt"
+                android:layout_marginBottom="10dp"
+                android:layout_centerHorizontal="true"
+                >
 
                 <EditText
                     android:id="@+id/SetModemInfoTv1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:layout_margin="10dp"
                     android:layout_weight="5"
-                    android:background="@drawable/textbox"
+                    android:background="@drawable/textbox1"
                     android:gravity="center"
                     android:inputType="number"
                     android:maxLength="3"
@@ -117,7 +117,6 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:layout_marginBottom="10dp"
                     android:layout_weight="1"
                     android:gravity="bottom|center"
                     android:text="."
@@ -128,9 +127,8 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:layout_margin="10dp"
                     android:layout_weight="5"
-                    android:background="@drawable/textbox"
+                    android:background="@drawable/textbox1"
                     android:gravity="center"
                     android:inputType="number"
                     android:maxLength="3"
@@ -140,7 +138,6 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:layout_marginBottom="10dp"
                     android:layout_weight="1"
                     android:gravity="bottom|center"
                     android:text="."
@@ -151,9 +148,8 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:layout_margin="10dp"
                     android:layout_weight="5"
-                    android:background="@drawable/textbox"
+                    android:background="@drawable/textbox1"
                     android:gravity="center"
                     android:inputType="number"
                     android:maxLength="3"
@@ -163,7 +159,6 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:layout_marginBottom="10dp"
                     android:layout_weight="1"
                     android:gravity="bottom|center"
                     android:text="."
@@ -174,9 +169,8 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:layout_margin="10dp"
                     android:layout_weight="5"
-                    android:background="@drawable/textbox"
+                    android:background="@drawable/textbox1"
                     android:gravity="center"
                     android:inputType="number"
                     android:maxLength="3"
@@ -186,7 +180,6 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:layout_marginBottom="10dp"
                     android:layout_weight="1"
                     android:gravity="bottom|center"
                     android:text=":"
@@ -197,9 +190,8 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:layout_margin="10dp"
                     android:layout_weight="5"
-                    android:background="@drawable/textbox"
+                    android:background="@drawable/textbox1"
                     android:gravity="center"
                     android:inputType="number"
                     android:maxLength="4"
@@ -207,9 +199,9 @@
             </LinearLayout>
 
 
-        </LinearLayout>
+        </RelativeLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="10dp"
@@ -219,11 +211,11 @@
 
             <Button
                 android:id="@+id/ExcelFileToDbBt"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_gravity="center"
-                android:layout_margin="10dp"
-                android:layout_weight="1"
+                android:layout_width="380dp"
+                android:layout_height="50dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
                 android:background="@drawable/buttontbox"
                 android:text="文件导入"
                 android:textColor="@color/TextColor"
@@ -231,25 +223,25 @@
 
             <Button
                 android:id="@+id/DbToExcelFileBt"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_width="380dp"
+                android:layout_height="50dp"
                 android:layout_gravity="center"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_weight="1"
+                android:layout_marginBottom="15dp"
+                android:layout_below="@+id/ExcelFileToDbBt"
                 android:background="@drawable/buttontbox"
                 android:text="文件导出"
                 android:textColor="@color/TextColor"
+                android:layout_centerHorizontal="true"
                 android:textSize="18sp" />
 
             <Button
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:id="@+id/DownloadFile"
+                android:layout_width="380dp"
+                android:layout_height="50dp"
+                android:layout_below="@+id/DbToExcelFileBt"
                 android:layout_gravity="center"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginBottom="15dp"
+                android:layout_centerHorizontal="true"
                 android:layout_weight="1"
                 android:background="@drawable/buttontbox"
                 android:text="下载档案"
@@ -258,23 +250,25 @@
 
             <Button
                 android:id="@+id/TimeCopyMeter"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_width="380dp"
+                android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:layout_marginBottom="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_weight="1"
                 android:background="@drawable/buttontbox"
                 android:text="设置定时抄表时间"
                 android:textColor="@color/TextColor"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/DownloadFile"
                 android:textSize="18sp" />
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="2"
-                android:orientation="horizontal">
+                android:layout_width="380dp"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/TimeCopyMeter"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal"
+                android:layout_marginBottom="15dp">
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -286,7 +280,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        >
 
                         <CheckBox
                             android:id="@+id/FisrttimeDayselect"
@@ -304,7 +299,7 @@
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="2dp"
                             android:layout_weight="3"
-                            android:background="@drawable/textbox"
+                            android:background="@drawable/textbox3"
                             android:gravity="center"
                             android:inputType="number"
                             android:maxLength="2" />
@@ -323,7 +318,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:layout_marginTop="15dp">
 
                         <CheckBox
                             android:id="@+id/TwotimeDayselect"
@@ -341,7 +337,7 @@
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="2dp"
                             android:layout_weight="3"
-                            android:background="@drawable/textbox"
+                            android:background="@drawable/textbox3"
                             android:gravity="center"
                             android:inputType="number"
                             android:maxLength="2" />
@@ -364,7 +360,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="3"
-                    android:background="@drawable/textbox"
+                    android:background="@drawable/textbox3"
                     android:gravity="center"
                     android:inputType="number"
                     android:maxLength="2" />
@@ -383,7 +379,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="3"
-                    android:background="@drawable/textbox"
+                    android:background="@drawable/textbox3"
                     android:gravity="center"
                     android:inputType="number"
                     android:maxLength="2" />
@@ -398,7 +394,7 @@
 
             </LinearLayout>
 
-        </LinearLayout>
+        </RelativeLayout>
 
     </LinearLayout>
 

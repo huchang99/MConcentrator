@@ -12,11 +12,18 @@
         />
 
     <RelativeLayout
-        android:id="@+id/login_admin_name_layout"
-        style="@style/common_Button_background"
-        android:layout_marginTop="80dp"
-        android:layout_above="@+id/login_admin_pwd_layout"
-        >
+        android:id="@+id/relativeLayoutbg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@drawable/icon_2loginbg2"
+       >
+
+        <RelativeLayout
+            android:id="@+id/login_admin_name_layout"
+            style="@style/common_Button_background"
+            android:layout_marginTop="80dp"
+           >
 
         <ImageView
             android:id="@+id/login_admin_name_icon"
@@ -39,44 +46,48 @@
             android:textSize="16sp"
             android:textColor="@color/TextColor"/>
 
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/login_admin_pwd_layout"
+            style="@style/common_editText_background"
+            android:layout_centerInParent="true"
+            >
+
+            <ImageView
+                android:id="@+id/login_pwd_icon"
+                android:layout_width="21dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/password_icon2x"/>
+
+            <EditText
+                android:id="@+id/login_admin_pwd_et"
+                android:layout_width="230dp"
+                android:layout_height="45dp"
+                android:layout_marginLeft="10dp"
+                android:background="@null"
+                android:hint="请输入管理员密码"
+                android:inputType="textPassword"
+                android:maxLength="15"
+                android:singleLine="true"
+                android:textColor="@color/editColor"
+                android:textSize="14sp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true" />
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/login_admin_btn"
+            style="@style/common_Button_background"
+            android:layout_below="@+id/login_admin_pwd_layout"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="210dp"
+            android:text="登录"
+            android:layout_marginBottom="40dp"
+            />
+
     </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/login_admin_pwd_layout"
-        style="@style/common_editText_background"
-        android:layout_marginTop="20dp"
-        android:layout_centerInParent="true">
-
-        <ImageView
-            android:id="@+id/login_pwd_icon"
-            android:layout_width="21dp"
-            android:layout_height="20dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
-            android:background="@drawable/password_icon2x"/>
-
-        <EditText
-            android:id="@+id/login_admin_pwd_et"
-            android:layout_width="230dp"
-            android:layout_height="45dp"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/login_pwd_icon"
-            android:background="@null"
-            android:hint="请输入管理员密码"
-            android:inputType="textPassword"
-            android:maxLength="15"
-            android:singleLine="true"
-            android:textColor="@color/editColor"
-            android:textSize="14sp" />
-    </RelativeLayout>
-
-    <Button
-        android:id="@+id/login_admin_btn"
-        style="@style/common_Button_background"
-        android:layout_below="@id/login_admin_pwd_layout"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        android:text="登录" />
-
 
 </RelativeLayout>

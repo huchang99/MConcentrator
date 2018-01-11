@@ -4,7 +4,7 @@
     android:id="@+id/activity_potocol188"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/start_page_bg2x"
+    android:background="@drawable/start_page2_bg2x"
     android:orientation="vertical"
     tools:context="com.system.mconcentrator.mconcentrator.Potocol188Activity">
 

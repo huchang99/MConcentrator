@@ -97,7 +97,7 @@ public class MenuActivity extends Activity implements View.OnClickListener {
     private void initData() {
 
         //设置表头透明
-        menu_titleup.getBackground().setAlpha(0);
+        menu_titleup.getBackground().setAlpha(100);
         //显示右侧的组件
         tv_right.setVisibility(View.VISIBLE);
         String date = MyApplication.myApplication.getSystemTime();
