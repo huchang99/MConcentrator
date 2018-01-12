@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/start_page2_bg2x"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/menu_titleup"
+        layout="@layout/common_title"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+         />
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="60dp">
+    <Button
+        android:id="@+id/readConcentratorVesionBt"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/buttontbox"
+        android:text="读设备信息"
+        android:textColor="@color/TextColor"
+        android:textSize="20sp" />
+
+    <Button
+        android:layout_toRightOf="@+id/readConcentratorVesionBt"
+        android:id="@+id/selectMeterAddr"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:background="@drawable/buttontbox"
+        android:gravity="center"
+        android:text="选择表地址"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:textColor="@color/TextColor"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/opengatebt"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/buttontbox"
+        android:text="表开阀"
+        android:layout_toRightOf="@+id/selectMeterAddr"
+        android:textColor="@color/TextColor"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/offatebt"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/buttontbox"
+        android:text="表关阀"
+        android:layout_toRightOf="@+id/opengatebt"
+        android:textColor="@color/TextColor"
+        android:textSize="20sp" />
+</RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="3dp"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:text="集中器编号"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/ConcentratorNumTv"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="3dp"
+            android:layout_weight="3"
+            android:background="@drawable/textbox"
+            android:gravity="center"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="3dp"
+            android:layout_weight="2"
+
+            android:gravity="center"
+            android:text="集中器软件版本"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/ConcentratorSwVersionTv"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="3dp"
+            android:layout_weight="3"
+            android:background="@drawable/textbox"
+            android:gravity="center"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="3dp"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:text="集中器硬件版本"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/ConcentratorHWVersionTv"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="3dp"
+            android:layout_weight="3"
+            android:background="@drawable/textbox"
+            android:gravity="center"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        >
+        <TextView
+            android:id="@+id/tcpiptv"
+            android:layout_width="120dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="TCP/IP"
+            android:textColor="@color/TextColor"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/readTcpIpTv"
+            android:layout_width="180dp"
+            android:layout_toRightOf="@+id/tcpiptv"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/textbox"
+            android:gravity="center"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/timecopytv"
+            android:layout_width="130dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_toRightOf="@+id/readTcpIpTv"
+            android:text="定时抄表时间"
+            android:textColor="@color/TextColor"
+            android:textSize="20sp" />
+
+        <LinearLayout
+            android:layout_toRightOf="@+id/timecopytv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="5"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="8"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/FisrttimeDayselect"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="1"
+                        android:checked="false" />
+
+                    <TextView
+                        android:id="@+id/FirsttimeDay"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="2dp"
+                        android:layout_weight="3"
+                        android:background="@drawable/textbox"
+                        android:gravity="center"
+                        android:inputType="number"
+                        android:maxLength="2" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="日" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="5dp">
+
+                    <CheckBox
+                        android:id="@+id/TwotimeDayselect"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="1"
+                        android:checked="false" />
+
+                    <TextView
+                        android:id="@+id/TwotimeDay"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="2dp"
+                        android:layout_weight="3"
+                        android:background="@drawable/textbox"
+                        android:gravity="center"
+                        android:inputType="number"
+                        android:maxLength="2" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="日" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+            <TextView
+                android:id="@+id/timeHour"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="3"
+                android:background="@drawable/textbox"
+                android:gravity="center"
+                android:inputType="number"
+                android:maxLength="2" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="时" />
+
+            <TextView
+                android:id="@+id/timeMinute"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="3"
+                android:background="@drawable/textbox"
+                android:gravity="center"
+                android:inputType="number"
+                android:maxLength="2" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="分" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/readfileFromDb"
+            android:layout_width="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:background="@drawable/buttontbox"
+            android:text="读取文件"
+            android:textColor="@color/white"
+            android:textSize="18sp"/>
+
+        <Button
+            android:id="@+id/SavafileToDb"
+            android:layout_margin="5dp"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:background="@drawable/buttontbox"
+            android:text="保存文件"
+            android:textColor="@color/white"
+            android:textSize="18sp"/>
+
+        <Button
+            android:id="@+id/CopyMeterData"
+            android:layout_margin="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/buttontbox"
+            android:text="采集表数据"
+            android:layout_weight="1"
+            android:textColor="@color/white"
+            android:textSize="18sp"/>
+
+        <Button
+            android:id="@+id/CopyAllMeter"
+            android:layout_margin="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/buttontbox"
+            android:text="抄读所有表"
+            android:layout_weight="1"
+            android:textColor="@color/white"
+            android:textSize="18sp"/>
+
+    </LinearLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.kelin.scrollablepanel.library.ScrollablePanel
+            android:id="@+id/scrollable_panel"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </FrameLayout>
+
+</LinearLayout>

@@ -160,7 +160,7 @@ public class LocaldebugActivity extends Activity implements View.OnClickListener
                 startActivity(intent);
                 break;
             case R.id.protocol_188bt:
-                intent.setClass(getApplicationContext(),Potocol188Activity.class);
+                intent.setClass(getApplicationContext(),CopyMeter188Activity.class);
                 startActivity(intent);
                 break;
 

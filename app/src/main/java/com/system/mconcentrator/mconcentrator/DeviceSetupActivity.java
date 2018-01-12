@@ -105,7 +105,7 @@ public class DeviceSetupActivity extends Activity implements View.OnClickListene
         txtsb = new StringBuffer();
 
         //
-//        savePotocol = getSharedPreferences("savePotocol", MODE_PRIVATE);
+        savePotocol = getSharedPreferences("savePotocol", MODE_PRIVATE);
 //        Boolean save_first = savePotocol.getBoolean("save_first", true);
 //        if (save_first) {//第一次
 //            savePotocol.edit().putBoolean("save_first", false).commit();
@@ -199,6 +199,7 @@ public class DeviceSetupActivity extends Activity implements View.OnClickListene
                     }
                 }).create();
                 PotocolDialog.show();
+
 
                 break;
             case R.id.TimeSet: //还需要修改

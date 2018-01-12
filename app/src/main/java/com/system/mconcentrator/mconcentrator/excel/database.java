@@ -23,17 +23,17 @@ public class database {
 
 
     private static final String TAG = "database";
-    private String sourcefile = "/storage/usbhost/8_4/ExtraMeter.xls";
-    private String OutfilePath = "/storage/usbhost/8_4/Meter1.xls";
-  //  private String sourcefile = "/storage/usbhost2/8_4/ExtraMeter.xls";
-  //  private String OutfilePath = "/storage/usbhost2/8_4/Meter1.xls";
+//    private String sourcefile = "/storage/usbhost/8_4/ExtraMeter.xls"; //a83
+//    private String OutfilePath = "/storage/usbhost/8_4/Meter1.xls";    //a83
+    private String sourcefile = "/storage/usbhost2/8_4/ExtraMeter.xls";
+    private String OutfilePath = "/storage/usbhost2/8_4/Meter1.xls";
     private Workbook wbook;
     private WritableWorkbook wwbCopy;
     private WritableSheet shSheet;
 
 
     private MeterData Meterdata;
-    private String[] title = {"编号", "栋号", "房号", "表类型", "采集器编号", "表编号", "上次读数", "表读数", "用量", "上次抄表时间", "抄表时间"};
+    private String[] title = {"编号", "栋号", "房号", "表状态", "采集器编号", "表编号", "上次读数", "表读数", "用量", "上次抄表时间", "抄表时间"};
 
     public database() {
         super();
@@ -61,8 +61,16 @@ public class database {
                 String CollectorNum = (sheet.getCell(6, i)).getContents();
                 String MeterNum = (sheet.getCell(7, i)).getContents();
                 String OldReadData = (sheet.getCell(8, i)).getContents();
+                if(OldReadData==null||OldReadData.length()<1)
+                {
+                    OldReadData = "0";
+                }
                 String MeterReadData = (sheet.getCell(9, i)).getContents();
                 String Amount = (sheet.getCell(10, i)).getContents();
+                if(Amount==null||Amount.length()<1)
+                {
+                    Amount = "0";
+                }
                 String OldReadTime = (sheet.getCell(14, i)).getContents();
                 String NowReadTime = (sheet.getCell(15, i)).getContents();
 

@@ -1,12 +1,14 @@
 package com.system.mconcentrator.mconcentrator;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,6 +19,7 @@ import com.system.mconcentrator.mconcentrator.scrollablepanel.DateInfo;
 import com.system.mconcentrator.mconcentrator.scrollablepanel.OrderInfo;
 import com.system.mconcentrator.mconcentrator.scrollablepanel.RoomInfo;
 import com.system.mconcentrator.mconcentrator.scrollablepanel.ScrollablePanelAdapter;
+import com.system.mconcentrator.mconcentrator.selfdefineclass.dialog_select;
 import com.system.mconcentrator.mconcentrator.utils.Const;
 import com.system.mconcentrator.mconcentrator.utils.Conversion;
 import com.system.mconcentrator.mconcentrator.utils.LogHelper;
@@ -27,6 +30,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.system.mconcentrator.mconcentrator.utils.Conversion.StringToStringArrayToASCII;
 import static com.system.mconcentrator.mconcentrator.utils.Conversion.getCrc;
 import static com.system.mconcentrator.mconcentrator.utils.Conversion.hexStr2Bytes;
 import static com.system.mconcentrator.mconcentrator.utils.Conversion.readmeterTime;
@@ -36,7 +40,11 @@ import static com.system.mconcentrator.mconcentrator.utils.MathExtends.subtract;
 import static com.system.mconcentrator.mconcentrator.utils.protocol.CopyMeterCommand;
 import static com.system.mconcentrator.mconcentrator.utils.protocol.DeviceInfoProtocolEnd;
 import static com.system.mconcentrator.mconcentrator.utils.protocol.DeviceInfoProtocolEnd1;
+import static com.system.mconcentrator.mconcentrator.utils.protocol.OffgateCommand;
+import static com.system.mconcentrator.mconcentrator.utils.protocol.OpengateCommand;
+import static com.system.mconcentrator.mconcentrator.utils.protocol.PageOne;
 import static com.system.mconcentrator.mconcentrator.utils.protocol.ReadAllMeterCommand;
+import static com.system.mconcentrator.mconcentrator.utils.protocol.ReadCommand;
 import static com.system.mconcentrator.mconcentrator.utils.protocol.ReadOneMeterCommand;
 import static com.system.mconcentrator.mconcentrator.utils.protocol.SendDeviceInfoProtocolHead;
 import static com.system.mconcentrator.mconcentrator.utils.protocol.TcpIpCommand;
@@ -78,11 +86,54 @@ public class CopyMeter188Activity extends SerialPortActivity implements View.OnC
     public boolean CopymeterDialogflag = false;
 
 
+    //potocol188移植
+    //界面控制按钮
+    private Button readConcentratorVesionBt; //读设备信息
+    private TextView ConcentratorNumTv; //读集中器编号
+    private TextView ConcentratorSwVersionTv; //集中器软件版本
+    private TextView ConcentratorHWVersionTv; //集中器硬件版本
+    private TextView readTcpIpTv;     //TCP/IP
+    private CheckBox FisrttimeDayselect;
+    private CheckBox TwotimeDayselect;
+    private TextView FirsttimeDay;  //第一行时间day
+    private TextView TwotimeDay;    //第二行时间day
+    private TextView timeHour;      //小时选择
+    private TextView timeMinute;    //分选择
+   // private Button copyMeterBt; //读抄表按钮
+    private Button opengatebt;//开阀
+    private Button offatebt;//关阀
+    private Button selectMeterAddr;//选择表地址
+
+
+    //数据处理
+    //StringBuffer txtsb;
+    String ConcentratorNumStr;       //设备编号字符串
+    String ConcentratorSwVersionStr; //设备软件版本字符串
+    String ConcentratorHWVersionStr; //集中器硬件版本字符串
+    String readTcpIpStr;             //TCP/IP字符串
+
+    String TimerStr; //定时抄表时间总字符
+    String FisrttimeDayselectStr;
+    String TwotimeDayselectStr;
+    String FirsttimeDayStr;          //第一行时间day字符串
+    String TwotimeDayStr;            //第二行时间day字符串
+    String timeHourStr;              //小时选择字符串
+    String timeMinuteStr;            //分选择字符串
+
+    //数据库中的表地址
+    public  ArrayList<String> Listdata;
+    public String MeterAddrTemp=null;
+
+    //数据库查询临时缓冲区
+    public List<MeterData> mdatabuf;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_copy_meter188);
+        setContentView(R.layout.actvity_copy188meter);
         initViews();
         initData();
         initLinstener();
@@ -96,6 +147,13 @@ public class CopyMeter188Activity extends SerialPortActivity implements View.OnC
         CopyMeterData.setOnClickListener(this);
         CopyAllMeter.setOnClickListener(this);
         scrollablePanelAdapter.setOnTableNumClickListener(this);
+
+        //potocol188移植
+        readConcentratorVesionBt.setOnClickListener(this);
+       // copyMeterBt.setOnClickListener(this);
+        opengatebt.setOnClickListener(this);
+        offatebt.setOnClickListener(this);
+        selectMeterAddr.setOnClickListener(this);
     }
 
     private void initData() {
@@ -110,6 +168,10 @@ public class CopyMeter188Activity extends SerialPortActivity implements View.OnC
         //初始化数据
         txtsb = new StringBuffer();
 
+        //potocol188移植
+        Listdata = new ArrayList<>();
+        //初始化数据库
+        mdatabuf = DataSupport.findAll(MeterData.class);
     }
 
     private void initViews() {
@@ -134,6 +196,25 @@ public class CopyMeter188Activity extends SerialPortActivity implements View.OnC
         SavafileToDb = (Button) findViewById(R.id.SavafileToDb);
         CopyMeterData = (Button) findViewById(R.id.CopyMeterData);
         CopyAllMeter = (Button) findViewById(R.id.CopyAllMeter);
+
+        //potocol188移植
+        readConcentratorVesionBt = (Button) findViewById(R.id.readConcentratorVesionBt);
+
+        ConcentratorNumTv = (TextView) findViewById(R.id.ConcentratorNumTv); //读集中器编号
+        ConcentratorSwVersionTv = (TextView) findViewById(R.id.ConcentratorSwVersionTv); //集中器软件版本
+        ConcentratorHWVersionTv = (TextView) findViewById(R.id.ConcentratorHWVersionTv); //集中器硬件版本
+        readTcpIpTv = (TextView) findViewById(R.id.readTcpIpTv);     //TCP/IP
+        FisrttimeDayselect = (CheckBox) findViewById(R.id.FisrttimeDayselect);
+        TwotimeDayselect = (CheckBox) findViewById(R.id.TwotimeDayselect);
+        FirsttimeDay = (TextView) findViewById(R.id.FirsttimeDay);  //第一行时间day
+        TwotimeDay = (TextView) findViewById(R.id.TwotimeDay);    //第二行时间day
+        timeHour = (TextView) findViewById(R.id.timeHour);      //小时选择
+        timeMinute = (TextView) findViewById(R.id.timeMinute);    //分选择
+
+      //  copyMeterBt = (Button)findViewById(R.id.copyMeterBt); //抄表按钮
+        opengatebt = (Button)findViewById(R.id.opengatebt);
+        offatebt = (Button)findViewById(R.id.offatebt);
+        selectMeterAddr = (Button)findViewById(R.id.selectMeterAddr);
     }
 
     @Override
@@ -187,6 +268,7 @@ public class CopyMeter188Activity extends SerialPortActivity implements View.OnC
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 CopyMeterDialog = builder.setTitle("采集表数据").setMessage(
                         "正在采集请等待").create();
+                builder.setCancelable(false);
                 CopyMeterDialog.show();
 
                 break;
@@ -203,6 +285,73 @@ public class CopyMeter188Activity extends SerialPortActivity implements View.OnC
                     }
                 } else {
                     Toast.makeText(getApplicationContext(), "请先读取文件", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            //potocol188移植
+            case R.id.readConcentratorVesionBt:
+                txtsb.delete(0, txtsb.length());//删除所有的数据
+                String readDeviceinfo = TcpIpCommand + SendDeviceInfoProtocolHead + ReadCommand + PageOne + "406A" + DeviceInfoProtocolEnd;
+                LogHelper.d("readDeviceinfo", readDeviceinfo);
+                try {
+                    mOutputStream.write(hexStr2Bytes(readDeviceinfo));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case R.id.opengatebt:
+                txtsb.delete(0, txtsb.length());//删除所有的数据
+                if(MeterAddrTemp==null||MeterAddrTemp.length()<1)
+                {
+                    Toast.makeText(getApplicationContext(),"请选择有效的表地址",Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    String MeterAddr = MeterAddrTemp;
+                    MeterAddrTemp = null;
+                    LogHelper.d(TAG+"MeterAddr",MeterAddr);
+                    //倒序表地址
+                    MeterAddr =twoDataReverseOrder(MeterAddr);
+                    String Sendopengatestr1 =OpengateCommand+MeterAddr;
+                    String Sendopengatestr2 =TcpIpCommand+SendDeviceInfoProtocolHead+OpengateCommand+MeterAddr+getCrc(Sendopengatestr1)+DeviceInfoProtocolEnd;
+                    LogHelper.d(TAG+"Sendopengatestr2",Sendopengatestr2);
+                    try {
+                        mOutputStream.write(hexStr2Bytes(Sendopengatestr2));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                break;
+
+            case R.id.selectMeterAddr:
+                //构建表地址数据
+                for(int i = 0;i < mdatabuf.size();i++)
+                {
+                    Listdata.add(mdatabuf.get(i).getMeterNum());
+                }
+                selectMeteraddrDialog();
+                break;
+
+            case R.id.offatebt:
+                txtsb.delete(0, txtsb.length());//删除所有的数据
+                if(MeterAddrTemp==null||MeterAddrTemp.length()<1)
+                {
+                    Toast.makeText(getApplicationContext(),"请选择有效的表地址",Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    String MeterAddr = MeterAddrTemp;
+                    MeterAddrTemp = null;
+                    LogHelper.d(TAG+"MeterAddr",MeterAddr);
+                    //倒序表地址
+                    MeterAddr =twoDataReverseOrder(MeterAddr);
+                    String Sendoffgatestr1 =OffgateCommand+MeterAddr;
+                    String Sendoffgatestr2 =TcpIpCommand+SendDeviceInfoProtocolHead+OffgateCommand+MeterAddr+getCrc(Sendoffgatestr1)+DeviceInfoProtocolEnd;
+                    LogHelper.d(TAG+"Sendopengatestr2",Sendoffgatestr2);
+                    try {
+                        mOutputStream.write(hexStr2Bytes(Sendoffgatestr2));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
                 }
                 break;
             case R.id.Back_tv:
@@ -349,9 +498,14 @@ public class CopyMeter188Activity extends SerialPortActivity implements View.OnC
                 StartFlag = true;
                 LogHelper.d(TAG + "continue ", "continue");
                 LogHelper.d(TAG + "txtsb", txtsb.toString());
-                LogHelper.d(TAG + "txtsb.substring(txtsb.length() - 2)", txtsb.substring(txtsb.length() - 4));
+                LogHelper.d(TAG + "txtsb.substring(txtsb.length() - 4)", txtsb.substring(txtsb.length() - 4));
                 //判断接收的字符串是否结束
-                if (DeviceInfoProtocolEnd1.equals(txtsb.substring(txtsb.length() - 4))) {
+                if(txtsb.length() == 834)
+                {
+                    StartFlag = false;
+                    receiveflag = true;
+                }
+                else if (DeviceInfoProtocolEnd1.equals(txtsb.substring(txtsb.length() - 4))) {
                     //判断CRC校验码,如果校验码正确，则接收到全部数据
                     String onDataReceivedCRC1 = txtsb.substring(txtsb.length() - 8, txtsb.length() - 4);
                     String onDataReceivedCRC2 = getCrc(txtsb.substring(8, txtsb.length() - 8));
@@ -383,6 +537,80 @@ public class CopyMeter188Activity extends SerialPortActivity implements View.OnC
         //处理接收字符串,判断字符串中的标志位
         if (receiveflag == true) {
             receiveflag = false;
+
+            if (txtsb.length() == 834) {
+
+                ConcentratorNumStr = txtsb.substring(594, 616);
+                ConcentratorSwVersionStr = txtsb.substring(644, 666);
+                ConcentratorHWVersionStr = txtsb.substring(694, 718);
+                readTcpIpStr = txtsb.substring(60, 92);
+                TimerStr = txtsb.substring(122, 154);
+                FisrttimeDayselectStr = TimerStr.substring(6, 8);
+                TwotimeDayselectStr = TimerStr.substring(14, 16);
+                FirsttimeDayStr = TimerStr.substring(8, 12);
+                TwotimeDayStr = TimerStr.substring(16, 20);
+                timeHourStr = TimerStr.substring(20, 24);
+                timeMinuteStr = TimerStr.substring(24, 28);
+
+                LogHelper.d("ConcentratorNumStr   ", ConcentratorNumStr);
+                LogHelper.d("ConcentratorSwVersionStr   ", ConcentratorSwVersionStr);
+                LogHelper.d("ConcentratorHWVersionStr   ", ConcentratorHWVersionStr);
+                LogHelper.d("readTcpIpStr   ", readTcpIpStr);
+                LogHelper.d("TimerStr   ", TimerStr);
+                LogHelper.d("FisrttimeDayselectStr   ", FisrttimeDayselectStr);
+                LogHelper.d("TwotimeDayselectStr   ", TwotimeDayselectStr);
+                LogHelper.d("FirsttimeDayStr   ", FirsttimeDayStr);
+                LogHelper.d("TwotimeDayStr   ", TwotimeDayStr);
+                LogHelper.d("timeHourStr   ", timeHourStr);
+                LogHelper.d("timeMinuteStr   ", timeMinuteStr);
+
+                ConcentratorNumStr = StringToStringArrayToASCII(ConcentratorNumStr);
+                ConcentratorSwVersionStr = StringToStringArrayToASCII(ConcentratorSwVersionStr);
+                ConcentratorHWVersionStr = StringToStringArrayToASCII(ConcentratorHWVersionStr);
+                readTcpIpStr = StringToStringArrayToASCII(readTcpIpStr);
+                FirsttimeDayStr = StringToStringArrayToASCII(FirsttimeDayStr);
+                TwotimeDayStr = StringToStringArrayToASCII(TwotimeDayStr);
+                timeHourStr = StringToStringArrayToASCII(timeHourStr);
+                timeMinuteStr = StringToStringArrayToASCII(timeMinuteStr);
+
+                LogHelper.d("ConcentratorNumStr++   ", ConcentratorNumStr);
+                LogHelper.d("ConcentratorSwVersionStr++   ", ConcentratorSwVersionStr);
+                LogHelper.d("ConcentratorHWVersionStr++   ", ConcentratorHWVersionStr);
+                LogHelper.d("readTcpIpStr++   ", readTcpIpStr);
+                LogHelper.d("FirsttimeDayStr++   ", FirsttimeDayStr);
+                LogHelper.d("TwotimeDayStr++   ", TwotimeDayStr);
+                LogHelper.d("timeHourStr++   ", timeHourStr);
+                LogHelper.d("timeMinuteStr++   ", timeMinuteStr);
+
+
+                //saveTimecopy.edit().putString("SaveMeterAddr", showtext).commit();  //保存读出来的地址
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        ConcentratorNumTv.setText(ConcentratorNumStr);
+                        ConcentratorSwVersionTv.setText(ConcentratorSwVersionStr);
+                        ConcentratorHWVersionTv.setText(ConcentratorHWVersionStr);
+                        readTcpIpTv.setText(readTcpIpStr);
+//                    FisrttimeDayselect.setText();
+//                    TwotimeDayselect.setText();
+                        FirsttimeDay.setText(FirsttimeDayStr);
+                        TwotimeDay.setText(TwotimeDayStr);
+                        timeHour.setText(timeHourStr);
+                        timeMinute.setText(timeMinuteStr);
+                        if("59".equals(FisrttimeDayselectStr))
+                        {
+                            FisrttimeDayselect.setChecked(true);
+                        }
+                        if("59".equals(TwotimeDayselectStr))
+                        {
+                            TwotimeDayselect.setChecked(true);
+                        }
+
+                    }
+                });
+                txtsb.delete(0, txtsb.length());//删除所有的数据
+            }
+
+            else{
             //接收数据完成
             String flagStr = txtsb.substring(8, 10);
             final String mRdata = txtsb.toString();
@@ -463,6 +691,7 @@ public class CopyMeter188Activity extends SerialPortActivity implements View.OnC
                     break;
             }
         }
+        }
 
     }
 
@@ -519,6 +748,11 @@ public class CopyMeter188Activity extends SerialPortActivity implements View.OnC
                     OrderInfo orderInfo3 = new OrderInfo();
                     orderInfo3.setGuestName(readonemeterString[2]);
                     ordersList.get(Copyrow - 1).set(9, orderInfo3);
+
+                    //用量
+                    OrderInfo orderInfo4 = new OrderInfo();
+                    orderInfo4.setGuestName(subtract(readonemeterString[0],ordersList.get(Copyrow - 1).get(5).getGuestName()));
+                    ordersList.get(Copyrow - 1).set(7, orderInfo4);
                     scrollablePanel.notifyDataSetChanged();
                     break;
 
@@ -586,6 +820,29 @@ public class CopyMeter188Activity extends SerialPortActivity implements View.OnC
             e.printStackTrace();
         }
 */
+    }
+
+    private void selectMeteraddrDialog(){
+        final dialog_select.Builder builder = new dialog_select.Builder(this);
+        builder.setTitle("表地址选择");
+        builder.setlist(Listdata);
+        builder.setPositiveButton("确定",new DialogInterface.OnClickListener(){
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                MeterAddrTemp = builder.getDialogcontent();
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton("取消",new DialogInterface.OnClickListener(){
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        builder.creat().show();
     }
 
 }
